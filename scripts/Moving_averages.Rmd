@@ -1,0 +1,158 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load libraries
+
+```{r}
+library(dplyr)
+library(countrycode)
+library(reshape2)
+library(stringr)
+library(data.table)
+library(zoo)
+library(here)
+```
+
+
+# Trade
+
+## Load data
+
+```{r}
+trade<-read.csv(here("output_data/Trade_displacement.csv"))
+```
+
+## Calculate moving averages
+
+```{r}
+countries<-unique(trade$Import_ISO3)
+  
+  all_dat<-c()
+  
+  for(x in 1:length(countries)){
+    #done<-c()
+    print(x)
+    cname<-as.character(countries[x])
+    sub<- trade %>% 
+      filter(Import_ISO3 == cname)
+    
+    
+    if(nrow(sub)<=5){
+      done<-data.frame(country = cname, max_yr = NA, min_yr = NA, total_years = NA, mov_avg_imports=NA, mov_avg_unequal = NA, mov_avg_prop_unequal = NA, time = NA)
+      
+    }else{
+      
+      min_year<-min(sub$Year)
+      max_year<-max(sub$Year)  
+      time_period<-c(min_year:max_year)
+      time_df<-data.frame(years =time_period)
+      sub_t<-left_join(time_df, sub, by = c("years" = "Year"))
+      #m.av<-rollmean(sub_t$prop_hs, 5,fill = list(NA, NULL, NA)) 
+      mav_imports<-rollapply(sub_t$imports, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      mav_unequal<-rollapply(sub_t$unequal_imports, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      mav_prop_unequal<-rollapply(sub_t$prop_unequal, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      
+      n_yrs<-max_year -min_year
+      done<-data.frame(country = cname, 
+                       max_yr = max_year, 
+                       min_yr = min_year, 
+                       total_years = n_yrs, 
+                       mov_avg_imports=mav_imports, 
+                       mov_avg_unequal = mav_unequal, 
+                       mov_avg_prop_unequal = mav_prop_unequal, 
+                       time = time_period)
+    }
+    
+     all_dat<-rbind(all_dat, done)
+  }
+  
+    fwrite(all_dat, here("output_data/Trade_displacement_moving_averages.csv"))
+```
+
+
+# Fishing
+
+```{r}
+rm(list=ls())
+```
+
+## Load data
+```{r}
+fish<-read.csv(here("output_data/Fish_displacement.csv"))
+```
+
+## Calculate moving averages
+```{r}
+countries<-unique(fish$Fishing_ISO3)
+  
+  all_dat<-c()
+  
+  for(x in 1:length(countries)){
+    #done<-c()
+    print(x)
+    cname<-as.character(countries[x])
+    sub<- fish %>% 
+      filter(Fishing_ISO3 == cname)
+    
+    
+    if(nrow(sub)<=5){
+            done<-data.frame(country = cname, 
+                       max_yr = NA, 
+                       min_yr = NA,
+                       total_years = NA, 
+                       mov_avg_fished= NA, 
+                       mov_avg_disp = NA,
+                       mov_avg_unequal = NA, 
+                       mov_avg_unequal_hs = NA, 
+                       mov_avg_unequal_eez = NA, 
+                       mov_avg_unequal_fishing_in_waters = NA,
+                       mov_avg_prop_disp = NA,
+                       mov_avg_prop_unequal = NA,
+                       time = NA)
+      
+    }else{
+      
+      min_year<-min(sub$Year)
+      max_year<-max(sub$Year)  
+      time_period<-c(min_year:max_year)
+      time_df<-data.frame(years =time_period)
+      sub_t<-left_join(time_df, sub, by = c("years" = "Year"))
+      #m.av<-rollmean(sub_t$prop_hs, 5,fill = list(NA, NULL, NA)) 
+      mav_total_fished<-rollapply(sub_t$Total_fished, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      mav_disp<-rollapply(sub_t$disp_fished, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      mav_unequal<-rollapply(sub_t$unequal_fish, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      mav_unequal_hs<-rollapply(sub_t$unequal_fish_hs, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      mav_unequal_eez<-rollapply(sub_t$unequal_fish_eez, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      mav_unequal_fishing_in_waters = rollapply(sub_t$unequal_fishing_in_waters, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+       mav_prop_disp<-rollapply(sub_t$prop_disp, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      mav_prop_unequal<-rollapply(sub_t$prop_unequal_disp, 5, mean, na.rm = TRUE, by = 1, partial = TRUE, fill = NA)
+      
+      n_yrs<-max_year -min_year
+      
+      done<-data.frame(country = cname, 
+                       max_yr = max_year, 
+                       min_yr = min_year, 
+                       total_years = n_yrs, 
+                       mov_avg_fished= mav_total_fished, 
+                       mov_avg_disp = mav_disp, 
+                       mov_avg_unequal = mav_unequal, 
+                       mov_avg_unequal_hs = mav_unequal_hs, 
+                       mov_avg_unequal_eez = mav_unequal_eez, 
+                       mov_avg_unequal_fishing_in_waters = mav_unequal_fishing_in_waters,
+                       mov_avg_prop_disp = mav_prop_disp, 
+                       mov_avg_prop_unequal = mav_prop_unequal, 
+                       time = time_period)
+    
+      }
+    
+     all_dat<-rbind(all_dat, done)
+  }
+  
+    fwrite(all_dat, here("output_data/Fishing_displacement_moving_averages.csv"))
+```

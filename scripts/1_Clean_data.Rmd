@@ -1,0 +1,225 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#load libraries
+library(dplyr)
+library(countrycode)
+library(reshape2)
+library(stringr)
+library(data.table)
+library(zoo)
+library(here)
+library(tidyverse)
+```
+
+
+# Load data
+
+Trade data
+```{r}
+imex_dat<-fread(here("raw_data/Carissa1Oct.csv"), header = T)
+```
+
+Fisheries data
+```{r}
+fishloc<-fread(here("raw_data/FishedWhereV2Summary.csv"))
+```
+
+Management data
+
+```{r}
+me_dat<-read.csv(here("raw_data/Management_data.csv"), header = T)
+```
+
+# Clean data
+
+Clean up country names and ISO3 codes
+
+```{r}
+imex_dat$Export_ISO3<-countrycode(imex_dat$ExportCountry, "country.name", "iso3c")
+imex_dat$ExportCountry<-ifelse(imex_dat$ExportCountry == "Dominican Rp", "Dominican Republic",
+                               ifelse(imex_dat$ExportCountry == "Czechoslovak", "Czechoslovakia",
+                                      ifelse(imex_dat$ExportCountry == "Fr Guiana", "French Guiana",
+                                             ifelse(imex_dat$ExportCountry == "Fr Polynesia", "French Polynesia",
+                                                    ifelse(imex_dat$ExportCountry == "NethAntilles", "Netherlands Antilles",
+                                                           ifelse(imex_dat$ExportCountry == "St Pier Mq", "Saint-Pierre Martinique",
+                                                                  ifelse(imex_dat$ExportCountry == "Cura\xe7ao", "Curacao",
+                                                                         ifelse(imex_dat$ExportCountry == "Untd Arab Em", "United Arab Emirates", as.character(imex_dat$ExportCountry)))))))))
+
+imex_dat$Export_ISO3<-countrycode(imex_dat$ExportCountry, "country.name", "iso3c")
+
+#Czechoslovakia split in 1993 into Czech republic and Slovakia
+imex_dat$Export_ISO3<-ifelse(imex_dat$ExportCountry == "Czechoslovakia", "CZE", imex_dat$Export_ISO3)
+imex_dat$Export_ISO3<-ifelse(imex_dat$ExportCountry == "Netherlands Antilles", "ANT", imex_dat$Export_ISO3)
+imex_dat$Export_ISO3<-ifelse(imex_dat$ExportCountry == "Micronesia", "FSM", imex_dat$Export_ISO3)
+imex_dat$Export_ISO3<-ifelse(imex_dat$ExportCountry == "Yugoslavia", "SCG", imex_dat$Export_ISO3)
+
+
+#Change import country names to ISO3 for matching                         
+imex_dat$Import_ISO3<-countrycode(imex_dat$ImportCountry, "country.name", "iso3c")
+
+imex_dat$ImportCountry<-ifelse(imex_dat$ImportCountry == "Cent Afr Rep", "Central African Republic",
+                               ifelse(imex_dat$ImportCountry == "Czechoslovak", "Czechoslovakia",
+                                      ifelse(imex_dat$ImportCountry == "Dominican Rp", "Dominican Republic",
+                                             ifelse(imex_dat$ImportCountry == "Fr Guiana", "French Guiana",
+                                                    ifelse(imex_dat$ImportCountry == "Fr Polynesia", "French Polynesia",
+                                                           ifelse(imex_dat$ImportCountry == "NethAntilles", "Netherlands Antilles",
+                                                                  ifelse(imex_dat$ImportCountry == "St Pier Mq", "Saint-Pierre Martinique",
+                                                                         ifelse(imex_dat$ImportCountry == "Cura\xe7ao", "Curacao",
+                                                                                ifelse(imex_dat$ImportCountry == "Untd Arab Em", "United Arab Emirates", as.character(imex_dat$ImportCountry))))))))))
+
+imex_dat$Import_ISO3<-countrycode(imex_dat$ImportCountry, "country.name", "iso3c")
+
+imex_dat$Import_ISO3<-ifelse(imex_dat$ImportCountry == "Czechoslovakia", "CZE", imex_dat$Import_ISO3)
+imex_dat$Import_ISO3<-ifelse(imex_dat$ImportCountry == "Netherlands Antilles", "ANT", imex_dat$Import_ISO3)
+imex_dat$Import_ISO3<-ifelse(imex_dat$ImportCountry == "Yugoslavia", "SCG", imex_dat$Import_ISO3)
+imex_dat$Import_ISO3<-ifelse(imex_dat$ImportCountry == "Micronesia", "FSM", imex_dat$Import_ISO3)
+
+
+#Get Source country ISO3
+imex_dat<-imex_dat[!imex_dat$SourceCountry == "Channel Is",]
+imex_dat$Source_ISO3<-countrycode(imex_dat$SourceCountry, "country.name", "iso3c")
+
+imex_dat$SourceCountry<-ifelse(imex_dat$SourceCountry == "Cent Afr Rep", "Central African Republic",
+                               ifelse(imex_dat$SourceCountry == "Czechoslovak", "Czechoslovakia",
+                                      ifelse(imex_dat$SourceCountry == "Dominican Rp", "Dominican Republic",
+                                             ifelse(imex_dat$SourceCountry == "Fr Guiana", "French Guiana",
+                                                    ifelse(imex_dat$SourceCountry == "Fr Polynesia", "French Polynesia",
+                                                           ifelse(imex_dat$SourceCountry == "NethAntilles", "Netherlands Antilles",
+                                                                  ifelse(imex_dat$SourceCountry == "St Pier Mq", "Saint-Pierre Martinique",
+                                                                         ifelse(imex_dat$SourceCountry == "Cura\xe7ao", "Curacao",
+                                                                                ifelse(imex_dat$SourceCountry == "Untd Arab Em", "United Arab Emirates", as.character(imex_dat$SourceCountry))))))))))
+
+imex_dat$Source_ISO3<-countrycode(imex_dat$SourceCountry, "country.name", "iso3c")
+
+imex_dat$Source_ISO3<-ifelse(imex_dat$SourceCountry == "Netherlands Antilles", "ANT", imex_dat$Source_ISO3)
+imex_dat$Source_ISO3<-ifelse(imex_dat$SourceCountry == "Yugoslavia", "SCG", imex_dat$Source_ISO3)
+imex_dat$Source_ISO3<-ifelse(imex_dat$SourceCountry == "Micronesia", "FSM", imex_dat$Source_ISO3)
+
+
+```
+
+
+```{r}
+fishloc$Fishing_ISO3<-countrycode(fishloc$FishingCountry, "country.name", "iso3c")
+
+#Remove Channel Islands and Other nei
+fishloc<-fishloc[!fishloc$FishingCountry == "Other nei",]
+fishloc<-fishloc[!fishloc$FishingCountry == "Channel Is",]
+
+fishloc$FishingCountry<-ifelse(fishloc$FishingCountry == "Amer Samoa", "American Samoa",
+                               ifelse(fishloc$FishingCountry == "Br Ind Oc Tr", "British Indian Ocean Territory",
+                                      ifelse(fishloc$FishingCountry == "Br Virgin Is", "British Virgin Islands",
+                                             ifelse(fishloc$FishingCountry == "Channel Is", "Channel Islands",
+                                                    ifelse(fishloc$FishingCountry == "Dominican Rp", "Dominican Republic",
+                                                           ifelse(fishloc$FishingCountry == "Fr Guiana", "French Guiana",
+                                                                  ifelse(fishloc$FishingCountry == "Fr Polynesia", "French Polynesia",
+                                                                         ifelse(fishloc$FishingCountry == "St Pier Mq", "Saint-Pierre Martinique",
+                                                                                ifelse(fishloc$FishingCountry == "Untd Arab Em", "United Arab Emirates",
+                                                                                       ifelse(fishloc$FishingCountry == "Cura\xe7ao", "Curacao",
+                                                                                              ifelse(fishloc$FishingCountry == "US Virgin Is", "United States Virgin Islands", as.character(fishloc$FishingCountry))))))))))))
+
+
+
+fishloc$Fishing_ISO3<-countrycode(fishloc$FishingCountry, "country.name", "iso3c")
+
+fishloc$Fishing_ISO3<-ifelse(fishloc$FishingCountry == "Micronesia", "FSM",
+                             ifelse(fishloc$FishingCountry == "NethAntilles", "ANT",
+                                    ifelse(fishloc$FishingCountry == "Yugoslavia", "SCG", as.character(fishloc$Fishing_ISO3))))
+
+
+
+
+fishloc$Fished_ISO3<-countrycode(fishloc$FishedCountry, "country.name", "iso3c")
+
+fishloc<-fishloc[!fishloc$FishedCountry == "Kerguelen Is",]
+fishloc<-fishloc[!fishloc$FishedCountry == "Channel Is",]
+
+fishloc$FishedCountry<-ifelse(fishloc$FishedCountry == "Amer Samoa", "American Samoa",
+                              ifelse(fishloc$FishedCountry == "Br Ind Oc Tr", "British Indian Ocean Territory",
+                                     ifelse(fishloc$FishedCountry == "Br Virgin Is", "British Virgin Islands",
+                                            ifelse(fishloc$FishedCountry == "Channel Is", "Channel Islands",
+                                                   ifelse(fishloc$FishedCountry == "Dominican Rp", "Dominican Republic",
+                                                          ifelse(fishloc$FishedCountry == "Fr Guiana", "French Guiana",
+                                                                 ifelse(fishloc$FishedCountry == "Fr Polynesia", "French Polynesia",
+                                                                        ifelse(fishloc$FishedCountry == "St Pier Mq", "Saint-Pierre Martinique",
+                                                                               ifelse(fishloc$FishedCountry == "Untd Arab Em", "United Arab Emirates",
+                                                                                      ifelse(fishloc$FishedCountry == "US Virgin Is", "United States Virgin Islands", as.character(fishloc$FishedCountry)))))))))))
+
+
+
+fishloc$Fished_ISO3<-countrycode(fishloc$FishedCountry, "country.name", "iso3c")
+
+fishloc$Fished_ISO3<-ifelse(fishloc$FishedCountry == "Micronesia", "FSM",
+                            ifelse(fishloc$FishedCountry == "NethAntilles", "ANT",
+                                   ifelse(fishloc$FishedCountry == "Yugoslavia", "SCG", 
+                                          ifelse(fishloc$FishedCountry == "West Sahara", "ESH",
+                                                 ifelse(fishloc$FishedCountry == "High Seas", "HighSeas", as.character(fishloc$Fished_ISO3))))))
+
+
+```
+
+```{r}
+
+#Only consider average management data
+me<-me_dat %>% 
+  filter(metric =="avg_mang")
+
+
+#Change country names to ISO3 for matching
+
+me$Export_ISO3<-countrycode(me$ME_Country, "country.name", "iso3c")
+me$Export_ISO3<-ifelse(me$ME_Country == "Serbia and Montenegro", "SCG", me$Export_ISO3)
+me$Export_ISO3<-ifelse(me$ME_Country == "Netherlands Antilles ", "ANT", me$Export_ISO3)
+me$Export_ISO3<-ifelse(me$ME_Country == "Azores", "PRT", me$Export_ISO3)
+me$Export_ISO3<-ifelse(me$ME_Country == "Madeira", "PRT", me$Export_ISO3)
+
+#Azores and Madeira still don't match - I put them with portugal.
+me<-me[complete.cases(me), ]
+
+#If there are more than one coast/ocean that a ME score is calculated for then we average them
+maneff<-me %>% group_by(Export_ISO3) %>% summarise(ME_score = mean(value)) %>% as.data.frame()
+```
+
+# Subset data
+
+Exclude Aquaculture
+Exclude IUU fishing
+Exclude ReExports
+
+```{r}
+#Check to make sure the correct variables are there (i.e. aquaculture)
+unique(imex_dat$Source)
+```
+
+```{r}
+imex_done<-imex_dat %>% 
+  filter(!Source %in% c("Domestic Aqua", "ReExport Domestic Aqua")) %>% 
+  rename(Total_tonnage = Tonnage) %>% 
+  select(Export_ISO3, Import_ISO3, Source_ISO3, Year, Total_tonnage)
+
+```
+
+```{r}
+fish_done<-fishloc %>% 
+  filter() %>% 
+  mutate(Reported2 = as.numeric(Reported)) %>% 
+  rename(Total_fished = Reported2,
+         Year = IYear) %>% 
+  select(Fishing_ISO3,Fished_ISO3, Year, Total_fished)
+```
+
+
+```{r}
+write.csv(imex_done, here("output_data/Trade_data_clean.csv"))
+write.csv(fish_done, here("output_data/Fishing_data_clean.csv"))
+write.csv(maneff, here("output_data/Management_data_clean.csv"))
+```
+
