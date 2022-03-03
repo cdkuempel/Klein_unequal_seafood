@@ -73,9 +73,9 @@ test<-all_fish_displaced %>%
 
 
 
-# Unequal Import Displacement
+# Unequal Fishing Displacement
 
-Displacement (imports) from countries with lower management
+Displacement (fishing) from countries with lower management
 
 ```{r}
 unequal<-fish_me %>% 

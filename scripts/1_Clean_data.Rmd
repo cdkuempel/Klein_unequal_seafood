@@ -201,10 +201,16 @@ unique(imex_dat$Source)
 
 ```{r}
 imex_done<-imex_dat %>% 
-  filter(!Source %in% c("Domestic Aqua", "ReExport Domestic Aqua")) %>% 
+  filter(!Source %in% c("Domestic Aqua", "ReExport Domestic Aqua", "ReExport Domestic Catch", "ReExport Foreign Fishing")) 
+
+unique(imex_done$Source)
+
+```
+
+```{r}
+imex_done<-imex_done %>% 
   rename(Total_tonnage = Tonnage) %>% 
   select(Export_ISO3, Import_ISO3, Source_ISO3, Year, Total_tonnage)
-
 ```
 
 ```{r}
