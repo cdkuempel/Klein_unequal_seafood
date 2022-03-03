@@ -1,0 +1,414 @@
+Country,ME_Country,metric,ocean,value,quartile
+American Samoa (1),American Samoa,psust,,100,4
+Anguilla (1),Anguilla,psust,,100,4
+Azores (1),Azores,psust,Azores,100,4
+Bahamas (1),Bahamas,psust,,100,4
+Barbados (1),Barbados,psust,,100,4
+Bermuda (1),Bermuda,psust,,100,4
+British Virgin Islands (1),British Virgin Islands,psust,,100,4
+Canary Islands (1),Spain,psust,Canary Islands,100,4
+Cape Verde (1),Cape Verde,psust,,100,4
+Cayman Islands (1),Cayman Islands,psust,,100,4
+Colombia (Atlanctic coast) (1),Colombia,psust,Atlantic Coast,100,4
+Cook Islands (1),Cook Islands,psust,,100,4
+Costa Rica (Atlanctic coast) (1),Costa Rica,psust,Atlantic Coast,100,4
+Djibouti (1),Djibouti,psust,,100,4
+Equatorial Guinea (1),Equatorial Guinea,psust,,100,4
+Eritrea (1),Eritrea,psust,,100,4
+French Guiana (1),French Guiana,psust,,100,4
+French Polynesia (1),French Polynesia,psust,,100,4
+Gibraltar (1),Gibraltar,psust,,100,4
+Grenada (1),Grenada,psust,,100,4
+Guam (1),Guam,psust,,100,4
+Guatemala (Atlanctic coast) (1),Guatemala,psust,Atlantic Coast,100,4
+Guatemala (Pacific coast) (1),Guatemala,psust,Pacific Coast,100,4
+Hawaii (1),United States,psust,Hawaii,100,4
+Honduras (Atlanctic coast) (1),Honduras,psust,Atlantic Coast,100,4
+Honduras (Pacific coast) (1),Honduras,psust,Pacific Coast,100,4
+Israel (Gulf of Aqaba) (1),Israel,psust,Gulf of Aqaba,100,4
+Kiribati (1),Kiribati,psust,,100,4
+Liberia (1),Liberia,psust,,100,4
+Madeira (1),Madeira,psust,Madeira,100,4
+Maldives (1),Maldives,psust,,100,4
+Marshall Islands (1),Marshall Islands,psust,,100,4
+Micronesia (1),Federated States of Micronesia,psust,,100,4
+Montserrat (1),Montserrat,psust,,100,4
+Nauru (1),Nauru,psust,,100,4
+Netherlands Antilles (1),Netherlands Antilles,psust,,100,4
+New Caledonia (1),New Caledonia,psust,,100,4
+Niue (1),Niue,psust,,100,4
+Northern Mariana Islands (1),Mariana Islands,psust,Northern,100,4
+Palau (1),Palau,psust,,100,4
+Panama (Pacific coast) (1),Panama,psust,Pacific Coast,100,4
+Reunion (1),Reunion,psust,,100,4
+Russia (Black sea coast) (1),Russia,psust,Black sea coast,100,4
+Saint Vincent and the Grenadines (1),Saint Vincent and the Grenadines,psust,,100,4
+Sao Tome and Principe (1),Sao Tome and Principe,psust,,100,4
+Seychelles (1),Seychelles,psust,,100,4
+Somalia (1),Somalia,psust,,100,4
+Southern Saint-Martin (1),Netherlands,psust,Southern Saint-Martin,100,4
+Sudan (1),Sudan,psust,,100,4
+Tokelau (1),Tokelau,psust,,100,4
+Tonga (1),Tonga,psust,,100,4
+Trinidad and Tobago (1),Trinidad and Tobago,psust,,100,4
+Tuvalu (1),Tuvalu,psust,,100,4
+Vanuatu (1),Vanuatu,psust,,100,4
+Wallis and Futuna (1),Wallis and Futuna,psust,,100,4
+Antigua and Barbuda (2),Antigua and Barbuda,psust,,96,4
+Australia (2),Australia,psust,,96,4
+Bulgaria (2),Bulgaria,psust,,96,4
+Canada (Pacific) (2),Canada,psust,Pacific Coast,96,4
+Colombia (Pacific coast) (2),Colombia,psust,Pacific Coast,96,4
+Comoro Islands (2),Comoro Islands,psust,,96,4
+Cyprus (2),Cyprus,psust,,96,4
+Democratic Republic of the Congo (2),Democratic Republic of the Congo,psust,,96,4
+Dominica (2),Dominica,psust,,96,4
+Dominican Republic (2),Dominican Republic,psust,,96,4
+Fiji (2),Fiji,psust,,96,4
+Gabon (2),Gabon,psust,,96,4
+Guinea Bissau (2),Guinea Bissau,psust,,96,4
+Haiti (2),Haiti,psust,,96,4
+Jamaica (2),Jamaica,psust,,96,4
+Kenya (2),Kenya,psust,,96,4
+Mauritius (2),Mauritius,psust,,96,4
+Mayotte (2),Mayotte,psust,,96,4
+Mozambique (2),Mozambique,psust,,96,4
+Nicaragua (Atlanctic coast) (2),Nicaragua,psust,Atlantic Coast,96,4
+Nicaragua (Pacific coast) (2),Nicaragua,psust,Pacific Coast,96,4
+Papua New Guinea (2),Papua New Guinea,psust,,96,4
+Puerto Rico (2),Puerto Rico,psust,,96,4
+Romania (2),Romania,psust,,96,4
+Saint Pierre and Miquelon (2),Saint Pierre and Miquelon,psust,,96,4
+Serbia-Montenegro (2),Serbia and Montenegro,psust,,96,4
+Solomon Islands (2),Solomon Islands,psust,,96,4
+Suriname (2),Suriname,psust,,96,4
+Thailand (Indian coast) (2),Thailand,psust,Indian coast,96,4
+Turks and Caicos Islands (2),Turks and Caicos Islands,psust,,96,4
+Angola (3),Angola,psust,,95,4
+Belize (3),Belize,psust,,95,4
+Congo (3),Congo,psust,,95,4
+Cuba (3),Cuba,psust,,95,4
+Falkland Islands (3),Falkland Islands,psust,,95,4
+France (Mediterranean) (3),France,psust,Mediterranean,95,4
+Georgia (3),Georgia,psust,,95,4
+Israel (Mediterranean coast) (3),Israel,psust,Mediterranean,95,4
+Madagascar (3),Madagascar,psust,,95,4
+Mexico (Atlanctic coast) (3),Mexico,psust,Atlantic Coast,95,4
+New Zealand (3),New Zealand,psust,,95,4
+Oman (3),Oman,psust,,95,4
+Qatar (3),Qatar,psust,,95,4
+Saint Kitts and Nevis (3),Saint Kitts and Nevis,psust,,95,4
+Saint Lucia (3),Saint Lucia,psust,,95,4
+Samoa (3),Samoa,psust,,95,4
+Sri Lanka (3),Sri Lanka,psust,,95,4
+Tanzania (3),Tanzania,psust,,95,4
+United States (Pacific coast) (3),United States,psust,Pacific Coast,95,4
+Yemen (3),Yemen,psust,,95,4
+Albania (4),Albania,psust,,94,4
+Brazil (4),Brazil,psust,,94,4
+Ecuador (4),Ecuador,psust,,94,4
+Finland (4),Finland,psust,,94,4
+"Guadeloupe, Saint-Barthélémy, Saint-Martin (4)",France,psust,"Guadeloupe, Saint-Barthélémy, Saint-Martin",94,4
+Ivory Coast (4),Ivory Coast,psust,,94,4
+Kuwait (4),Kuwait,psust,,94,4
+Libya (4),Libya,psust,,94,4
+Martinique (4),Martinique,psust,,94,4
+Morocco (Mediterranean coast) (4),Morocco,psust,Mediterranean,94,4
+Northern Saint-Martin (4),France,psust,Northern Saint-Martin,94,4
+Spain (Mediterranean coast) (4),Spain,psust,Mediterranean,94,4
+Ukraine (4),Ukraine,psust,,94,4
+Uruguay (4),Uruguay,psust,,94,4
+Egypt (Red sea) (5),Egypt,psust,Red sea,92,4
+Andaman and Nicobar (6),India ,psust,,85,4
+Guyana (6),Guyana,psust,,85,4
+Benin (7),Benin,psust,,79,4
+Lebanon (7),Lebanon,psust,,79,4
+Panama (Atlanctic coast) (7),Panama,psust,Atlantic Coast,79,4
+Argentina (8),Argentina,psust,,77,4
+Belgium (8),Belgium,psust,,77,4
+Canada (Atlanctic) (8),Canada,psust,Atlantic Coast,77,4
+Egypt (Mediterranean) (8),Egypt,psust,Mediterranean,77,4
+Estonia (8),Estonia,psust,,77,4
+Greenland (8),Greenland,psust,,77,4
+Namibia (8),Namibia,psust,,77,4
+Russia (Baltic Sea) (8),Russia,psust,Baltic Sea,77,4
+Spain (Atlanctic coast) (8),Spain,psust,Atlantic Coast,77,4
+Thailand (Pacific coast) (8),Thailand,psust,Pacific Coast,77,4
+Greece (9),Greece,psust,,72,3
+Malta (9),Malta,psust,,72,3
+Mexico (Pacific coast) (9),Mexico,psust,Pacific Coast,72,3
+Russia (Pacific coast) (9),Russia,psust,Pacific Coast,72,3
+Western Sahara (9),Western Sahara,psust,,72,3
+Sweden (10),Sweden ,psust,,70,3
+Alaska (11),United States,psust,Alaska,64,3
+Croatia (11),Croatia ,psust,,64,3
+El Salvador (11),El Salvador ,psust,,64,3
+Iran (11),Iran ,psust,,64,3
+Latvia (11),Latvia ,psust,,64,3
+Pakistan (11),Pakistan ,psust,,64,3
+Portugal (11),Portugal ,psust,,64,3
+Sierra Leone (11),Sierra Leone ,psust,,64,3
+Syria (11),Syria ,psust,,64,3
+Cambodia (12),Cambodia ,psust,,60,3
+United Arab Emirates (Gulf of Oman) (12),United Arab Emirates,psust,Gulf of Oman,60,3
+United Arab Emirates (Persian Gulf) (12),United Arab Emirates,psust,Persian Gulf,60,3
+Venezuela (12),Venezuela ,psust,,60,3
+France (North Atlanctic) (13),France,psust,North Atlantic,54,3
+Gambia (13),Gambia ,psust,,54,3
+Indonesia (13),Indonesia ,psust,,54,3
+Mauritania (13),Mauritania ,psust,,54,3
+Myanmar (13),Myanmar ,psust,,54,3
+Netherlands (13),Netherlands ,psust,,54,3
+North Korea (13),North Korea ,psust,,54,3
+Poland (13),Poland ,psust,,54,3
+Lithuania (14),Lithuania ,psust,,49,2
+Guinea (15),Guinea ,psust,,44,2
+India (15),India ,psust,,44,2
+Senegal (16),Senegal ,psust,,41,2
+South Africa (16),South Africa ,psust,,41,2
+Ghana (17),Ghana ,psust,,35,2
+Iraq (17),Iraq ,psust,,35,2
+Ireland (17),Ireland ,psust,,35,2
+Bahrain (18),Bahrain ,psust,,33,2
+Cameroon (18),Cameroon ,psust,,33,2
+Nigeria (18),Nigeria ,psust,,33,2
+Norway (18),Norway ,psust,,33,2
+Togo (18),Togo ,psust,,33,2
+Algeria (19),Algeria ,psust,,27,2
+Japan (19),Japan ,psust,,27,2
+Taiwan (19),Taiwan ,psust,,27,2
+Italy (20),Italy ,psust,,24,1
+Denmark (21),Denmark ,psust,,23,1
+Saudi Arabia (Red Sea) (21),Saudi Arabia,psust,Red sea,23,1
+TunisiA (21),Tunisia,psust,,23,1
+United States (Atlactic coast) (21),United States,psust,Atlantic Coast,23,1
+Germany (22),Germany ,psust,,22,1
+United Kingdom (22),United Kingdom ,psust,,22,1
+US Virgin Islands (23),US Virgin Islands ,psust,,20,1
+Faeroe Islands (24),Faeroe Islands ,psust,,15,1
+Philippines (24),Philippines ,psust,,15,1
+Bangladesh (25),Bangladesh ,psust,,14,1
+Iceland (25),Iceland ,psust,,14,1
+Jordan (25),Jordan ,psust,,14,1
+Morocco (Atlanctic coast) (25),Morocco,psust,Atlantic Coast,14,1
+Saudi Arabia (Persian Gulf) (25),Saudi Arabia,psust,Persian Gulf,14,1
+Viet Nam (25),Viet Nam ,psust,,14,1
+Chile (26),Chile ,psust,,0,1
+China (26),China ,psust,,0,1
+Costa Rica (Pacific coast) (26),Costa Rica,psust,Pacific Coast,0,1
+Malaysia (Asian continental) (26),Malaysia,psust,Asian continental,0,1
+Malaysia (Asian Insular) (26),Malaysia,psust,Asian Insular,0,1
+Peru (26),Peru ,psust,,0,1
+Russia (Artic coast) (26),Russia,psust,Artic ocast,0,1
+Slovenia (26),Slovenia ,psust,,0,1
+South Korea (26),South Korea ,psust,,0,1
+Turkey (26),Turkey ,psust,,0,1
+Scotland (1),Great Britain,avg_mang,,83,4
+American Samoa (2),American Samoa,avg_mang,,78,4
+Northern Mariana Islands (2),Mariana Islands,avg_mang,Northern,78,4
+Namibia (3),Namibia,avg_mang,,77,4
+Serbia-Montenegro (3),Serbia and Montenegro,avg_mang,,77,4
+Guam (4),Guam,avg_mang,,75,4
+Faeroe Islands (4),Faeroe Islands,avg_mang,,74,3
+Hawaii (4),United States,avg_mang,Hawaii,74,3
+Australia (5),Australia,avg_mang,,73,3
+Bermuda (5),Bermuda,avg_mang,,73,3
+Cuba (6),Cuba,avg_mang,,73,3
+Samoa (6),Samoa,avg_mang,,73,3
+US Virgin Islands (7),US Virgin Islands,avg_mang,,73,3
+China (8),China,avg_mang,,72,3
+Cook Islands (8),Cook Islands,avg_mang,,72,3
+Falkland Islands (8),Falkland Islands,avg_mang,,72,3
+South Korea (9),South Korea,avg_mang,,72,3
+Alaska (10),United States,avg_mang,Alaska,71,3
+Greenland (10),Greenland ,avg_mang,,71,3
+Martinique (10),Martinique ,avg_mang,,71,3
+New Zealand (11),New Zealand ,avg_mang,,71,3
+Northern Saint-Martin (11),France,avg_mang,Northern Saint-Martin,71,3
+Belize (12),Belize ,avg_mang,,70,3
+El Salvador (12),El Salvador ,avg_mang,,70,3
+Netherlands Antilles (13),Netherlands Antilles ,avg_mang,,70,3
+Southern Saint-Martin (13),Netherlands,avg_mang,Southern Saint-Martin,70,3
+TunisiA (14),Tunisia,avg_mang,,70,3
+Algeria (15),Algeria ,avg_mang,,69,3
+Argentina (15),Argentina ,avg_mang,,69,3
+Bornholm (15),Denmark ,avg_mang,Baltic Sea,69,3
+Cayman Islands (16),Cayman Islands ,avg_mang,,69,3
+Chile (16),Chile ,avg_mang,,69,3
+Iran (17),Iran ,avg_mang,,69,3
+Israel (Gulf of Aqaba) (17),Israel,avg_mang,Gulf of Aqaba,69,3
+Israel (Mediterranean coast) (18),Israel,avg_mang,Mediterranean,69,3
+Norway (18),Norway ,avg_mang,,69,3
+Russia (Artic coast) (19),Russia,avg_mang,Artic coast,69,3
+Russia (Black sea coast) (19),Russia,avg_mang,Black sea coast,69,3
+Thailand (Indian coast) (20),Thailand,avg_mang,Indian coast,69,3
+Thailand (Pacific coast) (20),Thailand,avg_mang,Pacific coast,69,3
+Tonga (21),Tonga ,avg_mang,,69,3
+Albania (22),Albania ,avg_mang,,68,3
+Bahrain (22),Bahrain ,avg_mang,,68,3
+Cambodia (22),Cambodia ,avg_mang,,68,3
+Canada (Atlanctic) (23),Canada,avg_mang,Atlantic coast,68,3
+Canada (Pacific) (23),Canada,avg_mang,Pacific coast,68,3
+Denmark (24),Denmark ,avg_mang,,68,3
+Georgia (24),Georgia ,avg_mang,,68,3
+"Guadeloupe, Saint-Barthélémy, Saint-Martin (25)",France,avg_mang,"Guadeloupe, Saint-Barthélémy, Saint-Martin",68,3
+Iceland (25),Iceland ,avg_mang,,68,3
+Kuwait (26),Kuwait ,avg_mang,,68,3
+Peru (26),Peru ,avg_mang,,68,3
+Russia (Baltic Sea) (27),Russia,avg_mang,Baltic Sea,68,3
+Saint Lucia (27),Saint Lucia ,avg_mang,,68,3
+Tanzania (28),Tanzania ,avg_mang,,68,3
+United Kingdom (28),United Kingdom ,avg_mang,,68,3
+United States (Atlactic coast) (29),United States,avg_mang,Atlantic coast,68,3
+Anguilla (30),Anguilla ,avg_mang,,67,3
+Bahamas (30),Bahamas ,avg_mang,,67,3
+Estonia (30),Estonia ,avg_mang,,67,3
+France (Mediterranean) (31),France ,avg_mang,Mediterranean,67,3
+France (North Atlanctic) (31),France,avg_mang,North Atlantic,67,3
+Gabon (32),Gabon ,avg_mang,,67,3
+Gibraltar (32),Gibraltar ,avg_mang,,67,3
+Morocco (Mediterranean coast) (33),Morocco,avg_mang,Mediterranean,67,3
+Poland (33),Poland ,avg_mang,,67,3
+Puerto Rico (34),Puerto Rico ,avg_mang,,67,3
+South Africa (34),South Africa ,avg_mang,,67,3
+Turkey (35),Turkey ,avg_mang,,67,3
+Uruguay (35),Uruguay ,avg_mang,,67,3
+Cyprus (36),Cyprus ,avg_mang,,66,3
+Dominica (36),Dominica ,avg_mang,,66,3
+Egypt (Mediterranean) (37),Egypt,avg_mang,Mediterranean,66,3
+Egypt (Red sea) (37),Egypt,avg_mang,Red sea,66,3
+Guernsey (38),Guernsey ,avg_mang,,66,3
+Saint Kitts and Nevis (38),Saint Kitts and Nevis ,avg_mang,,66,3
+Syria (39),Syria ,avg_mang,,66,3
+United States (Pacific coast) (39),United States,avg_mang,Pacific coast,66,3
+British Virgin Islands (40),British Virgin Islands ,avg_mang,,65,3
+French Polynesia (40),French Polynesia ,avg_mang,,65,3
+Germany (41),Germany ,avg_mang,,65,3
+Kenya (41),Kenya ,avg_mang,,65,3
+Latvia (42),Latvia ,avg_mang,,65,3
+Malaysia (Asian Insular) (42),Malaysia,avg_mang,Asian Insular,65,3
+Morocco (Atlanctic coast) (43),Morocco,avg_mang,Atlantic coast,65,3
+Russia (Pacific coast) (43),Russia,avg_mang,Pacific coast,65,3
+Saint Pierre and Miquelon (44),Saint Pierre and Miquelon ,avg_mang,,65,3
+Ukraine (44),Ukraine ,avg_mang,,65,3
+Bangladesh (45),Bangladesh ,avg_mang,,64,3
+Eritrea (45),Eritrea ,avg_mang,,64,3
+Finland (46),Finland ,avg_mang,,64,3
+Greece (46),Greece ,avg_mang,,64,3
+Ireland (47),Ireland ,avg_mang,,64,3
+Niue (47),Niue ,avg_mang,,64,3
+Philippines (48),Philippines ,avg_mang,,64,3
+Romania (48),Romania ,avg_mang,,64,3
+Slovenia (49),Slovenia ,avg_mang,,64,3
+Spain (Atlanctic coast) (49),Spain,avg_mang,Atlantic coast,64,3
+Spain (Mediterranean coast) (50),Spain,avg_mang,Mediterranean coast,64,3
+Turks and Caicos Islands (50),Turks and Caicos Islands ,avg_mang,,64,3
+Viet Nam (51),Viet Nam ,avg_mang,,64,3
+Antigua and Barbuda (52),Antigua and Barbuda ,avg_mang,,63,3
+Bulgaria (52),Bulgaria ,avg_mang,,63,3
+Dominican Republic (52),Dominican Republic ,avg_mang,,63,3
+Lithuania (53),Lithuania ,avg_mang,,63,3
+Netherlands (53),Netherlands ,avg_mang,,63,3
+New Caledonia (54),New Caledonia ,avg_mang,,63,3
+Portugal (54),Portugal ,avg_mang,,63,3
+Sierra Leone (55),Sierra Leone ,avg_mang,,63,3
+Taiwan (55),Taiwan ,avg_mang,,63,3
+Yemen (56),Yemen ,avg_mang,,63,3
+Azores (57),Azores,avg_mang,Azores,62,3
+Belgium (57),Belgium ,avg_mang,,62,3
+Brazil (57),Brazil ,avg_mang,,62,3
+Malaysia (Asian continental) (58),Malaysia,avg_mang,Asian continental,62,3
+Malta (58),Malta ,avg_mang,,62,3
+Montserrat (59),Montserrat ,avg_mang,,62,3
+Pakistan (59),Pakistan ,avg_mang,,62,3
+Suriname (60),Suriname ,avg_mang,,62,3
+Colombia (Pacific coast) (61),Colombia,avg_mang,Pacific coast,61,3
+Ecuador (61),Ecuador ,avg_mang,,61,3
+Gambia (61),Gambia ,avg_mang,,61,3
+Italy (62),Italy ,avg_mang,,61,3
+Jersey (62),Jersey ,avg_mang,,61,3
+Lebanon (63),Lebanon ,avg_mang,,61,3
+Trinidad and Tobago (63),Trinidad and Tobago ,avg_mang,,61,3
+United Arab Emirates (Persian Gulf) (64),United Arab Emirates,avg_mang,Persian Gulf,61,3
+Barbados (65),Barbados ,avg_mang,,60,3
+Equatorial Guinea (65),Equatorial Guinea ,avg_mang,,60,3
+French Guiana (65),French Guiana ,avg_mang,,60,3
+India (66),India ,avg_mang,,60,3
+Kiribati (66),Kiribati ,avg_mang,,60,3
+Sudan (67),Sudan ,avg_mang,,60,3
+Western Sahara (67),Western Sahara ,avg_mang,,60,3
+Andaman and Nicobar (68),India ,avg_mang,,59,3
+Angola (68),Angola ,avg_mang,,59,3
+Benin (69),Benin ,avg_mang,,59,3
+Canary Islands (69),Spain,avg_mang,Canary Islands,59,3
+Grenada (70),Grenada ,avg_mang,,59,3
+Guyana (70),Guyana ,avg_mang,,59,3
+Jamaica (71),Jamaica ,avg_mang,,59,3
+Nigeria (71),Nigeria ,avg_mang,,59,3
+Papua New Guinea (72),Papua New Guinea ,avg_mang,,59,3
+Sri Lanka (72),Sri Lanka ,avg_mang,,59,3
+Guinea Bissau (73),Guinea Bissau ,avg_mang,,58,3
+Mauritania (73),Mauritania ,avg_mang,,58,3
+Panama (Atlanctic coast) (74),Panama,avg_mang,Atlantic coast,58,3
+United Arab Emirates (Gulf of Oman) (74),United Arab Emirates,avg_mang,Gulf of Oman,58,3
+Venezuela (75),Venezuela ,avg_mang,,58,3
+Haiti (76),Haiti ,avg_mang,,57,3
+Honduras (Atlanctic coast) (76),Honduras,avg_mang,Atlantic coast,57,3
+Honduras (Pacific coast) (76),Honduras,avg_mang,Pacific coast,57,3
+Iraq (77),Iraq ,avg_mang,,57,3
+Maldives (77),Maldives ,avg_mang,,57,3
+Mayotte (78),Mayotte ,avg_mang,,57,3
+Mexico (Atlanctic coast) (78),Mexico,avg_mang,Atlantic coast,57,3
+Mexico (Pacific coast) (79),Mexico,avg_mang,Pacific coast,57,3
+Nicaragua (Atlanctic coast) (79),Nicaragua,avg_mang,Atlantic coast,57,3
+Nicaragua (Pacific coast) (80),Nicaragua,avg_mang,Pacific coast,57,3
+Panama (Pacific coast) (80),Panama,avg_mang,Pacific coast,57,3
+Qatar (81),Qatar ,avg_mang,,57,3
+Senegal (81),Senegal ,avg_mang,,57,3
+Colombia (Atlanctic coast) (82),Colombia,avg_mang,Atlantic coast,56,3
+Isle of Man (82),Isle of Man ,avg_mang,,56,3
+Japan (83),Japan ,avg_mang,,56,3
+Madeira (83),Madeira,avg_mang,Madeira,56,3
+Marshall Islands (84),Marshall Islands ,avg_mang,,56,3
+Wallis and Futuna (84),Wallis and Futuna ,avg_mang,,56,3
+Cape Verde (85),Cape Verde ,avg_mang,,55,3
+Indonesia (85),Indonesia ,avg_mang,,55,3
+Reunion (86),Reunion ,avg_mang,,55,3
+Tokelau (86),Tokelau ,avg_mang,,55,3
+Democratic Republic of the Congo (87),Democratic Republic of the Congo ,avg_mang,,54,3
+Guinea (87),Guinea ,avg_mang,,54,3
+Micronesia (88),Federated States of Micronesia,avg_mang,,54,3
+Nauru (88),Nauru ,avg_mang,,54,3
+Saudi Arabia (Persian Gulf) (89),Saudi Arabia,avg_mang,Persian Gulf,54,3
+Saudi Arabia (Red Sea) (89),Saudi Arabia,avg_mang,Red Sea,54,3
+Sweden (90),Sweden ,avg_mang,,54,3
+Comoro Islands (91),Comoro Islands ,avg_mang,,53,3
+Congo (91),Congo ,avg_mang,,53,3
+Ivory Coast (91),Ivory Coast ,avg_mang,,53,3
+Jordan (92),Jordan ,avg_mang,,53,3
+Costa Rica (Atlanctic coast) (93),Costa Rica,avg_mang,Atlantic coast,52,3
+Costa Rica (Pacific coast) (93),Costa Rica,avg_mang,Pacific coast,52,3
+Croatia (93),Croatia ,avg_mang,,52,3
+Fiji (94),Fiji ,avg_mang,,52,3
+Ghana (94),Ghana ,avg_mang,,52,3
+Liberia (95),Liberia ,avg_mang,,52,3
+Mozambique (95),Mozambique ,avg_mang,,52,3
+Somalia (96),Somalia ,avg_mang,,52,3
+Madagascar (97),Madagascar ,avg_mang,,51,3
+Mauritius (97),Mauritius ,avg_mang,,51,3
+Myanmar (97),Myanmar ,avg_mang,,51,3
+Seychelles (98),Seychelles ,avg_mang,,51,3
+Solomon Islands (98),Solomon Islands ,avg_mang,,51,3
+Togo (99),Togo ,avg_mang,,51,3
+Vanuatu (99),Vanuatu ,avg_mang,,51,3
+Cameroon (100),Cameroon,avg_mang,,49,2
+Guatemala (Atlanctic coast) (100),Guatemala,avg_mang,Atlantic coast,49,2
+Guatemala (Pacific coast) (101),Guatemala,avg_mang,Pacific coast,49,2
+North Korea (101),North Korea,avg_mang,,49,2
+Oman (102),Oman,avg_mang,,49,2
+Saint Vincent and the Grenadines (102),Saint Vincent and the Grenadines,avg_mang,,49,2
+Palau (103),Palau,avg_mang,,47,2
+Sao Tome and Principe (103),Sao Tome and Principe,avg_mang,,47,2
+Libya (104),Libya,avg_mang,,46,2
+Djibouti (105),Djibouti,avg_mang,,43,2
+Tuvalu (105),Tuvalu,avg_mang,,41,2
