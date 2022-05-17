@@ -1,0 +1,112 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load libraries
+```{r}
+library(here)
+library(tidyverse)
+```
+
+
+# Load data
+
+Trade data
+```{r}
+trade<-readRDS(here("output_data/Trade_data_clean.Rdata"))
+```
+
+Management data
+
+```{r}
+me<-readRDS(here("output_data/Management_data_clean.Rdata")) 
+```
+
+Join data
+
+```{r}
+trade_me<-full_join(trade, me, by = "Export_ISO3")
+
+test<-trade_me %>% 
+  filter(is.na(ME_score) == T)
+
+# These countries do not have an ME score
+unique(test$Export_ISO3)
+```
+
+# Displaced (imported) by country
+
+```{r}
+imports<- trade_me %>% 
+  group_by(Import_ISO3, Year) %>% 
+  summarise(imports = sum(Total_tonnage, na.rm = T))
+
+imports_iso3<- trade_me %>% 
+  group_by(Import_ISO3, Export_ISO3, Year) %>% 
+  summarise(imports = sum(Total_tonnage, na.rm = T))
+```
+
+# Unequal Import Displacement
+
+Displacement (imports) from countries with lower management
+
+```{r}
+unequal<-trade_me %>% 
+  full_join(., me, by = c("Import_ISO3" = "Export_ISO3")) %>% 
+  rename(Export_ME = ME_score.x,
+         Import_ME = ME_score.y,
+         Export_quant = quantile.x,
+         Import_quant = quantile.y)
+
+sub_unequal<-unequal %>% 
+  filter(Export_quant < Import_quant)
+
+unequal_imports<- sub_unequal %>% 
+  group_by(Import_ISO3, Year) %>% 
+  summarise(unequal_imports = sum(Total_tonnage, na.rm = T))
+
+unequal_imports_iso3<- sub_unequal %>% 
+  group_by(Import_ISO3, Export_ISO3, Year) %>% 
+  summarise(unequal_imports = sum(Total_tonnage, na.rm = T))
+  
+```
+
+Join 
+
+```{r}
+trade_results<-full_join(imports, unequal_imports) %>% 
+  mutate(prop_unequal = unequal_imports/imports)
+
+trade_results_iso3<-full_join(imports_iso3, unequal_imports_iso3) %>% 
+  full_join(., me) %>% 
+  rename(ME_score_exporter = ME_score,
+         ME_exporter_quant = quantile) %>% 
+  full_join(., me, by = c("Import_ISO3" = "Export_ISO3")) %>% 
+  rename(ME_score_importer = ME_score,
+         ME_improter_quant = quantile) 
+```
+
+```{r}
+write.csv(trade_results, here("output_data/Trade_displacement.csv"))
+
+write.csv(trade_results_iso3, here("output_data/Trade_displacement_by_country.csv"))
+```
+
+```{r}
+test<-trade_results %>% 
+  filter(Year %in% c(2011,2012,2013,2014,2015),
+         Import_ISO3 == "ALB")
+```
+
+```{r}
+test2<-imex_dat %>% 
+  filter(Year %in% c(2011,2012,2013,2014,2015),
+         Import_ISO3 == "ALB",
+         Source %in% c("Domestic Catch", "Foreign Fishing", "ReExport Domestic Catch", "ReExport Foreign Fishing")) 
+  
+```
