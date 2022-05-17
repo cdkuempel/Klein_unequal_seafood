@@ -17,6 +17,7 @@ library(data.table)
 library(zoo)
 library(here)
 library(tidyverse)
+library(cutr)
 ```
 
 
@@ -187,6 +188,23 @@ me<-me[complete.cases(me), ]
 #If there are more than one coast/ocean that a ME score is calculated for then we average them
 maneff<-me %>% group_by(Export_ISO3) %>% summarise(ME_score = mean(value)) %>% as.data.frame()
 ```
+Add in high seas
+
+```{r}
+high_seas<-data.frame(Export_ISO3 = "HighSeas", ME_score = 49)
+
+maneff<- maneff %>% 
+  rbind(high_seas)
+```
+
+```{r}
+#quantiles
+maneff %>% 
+  summarise(quant = quantile(ME_score, seq(0,1,0.2)))
+
+maneff$quantile<-cutr::smart_cut(maneff$ME_score, 5, "g", output = "numeric")
+
+```
 
 # Subset data
 
@@ -224,8 +242,8 @@ fish_done<-fishloc %>%
 
 
 ```{r}
-write.csv(imex_done, here("output_data/Trade_data_clean.csv"))
-write.csv(fish_done, here("output_data/Fishing_data_clean.csv"))
-write.csv(maneff, here("output_data/Management_data_clean.csv"))
+saveRDS(imex_done, here("output_data/Trade_data_clean.Rdata"))
+saveRDS(fish_done, here("output_data/Fishing_data_clean.Rdata"))
+saveRDS(maneff, here("output_data/Management_data_clean.Rdata"))
 ```
 
