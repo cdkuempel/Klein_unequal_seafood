@@ -47,6 +47,10 @@ unique(test$Export_ISO3)
 imports<- trade_me %>% 
   group_by(Import_ISO3, Year) %>% 
   summarise(imports = sum(Total_tonnage, na.rm = T))
+
+imports_iso3<- trade_me %>% 
+  group_by(Import_ISO3, Export_ISO3, Year) %>% 
+  summarise(imports = sum(Total_tonnage, na.rm = T))
 ```
 
 # Unequal Import Displacement
@@ -65,6 +69,10 @@ sub_unequal<-unequal %>%
 unequal_imports<- sub_unequal %>% 
   group_by(Import_ISO3, Year) %>% 
   summarise(unequal_imports = sum(Total_tonnage, na.rm = T))
+
+unequal_imports_iso3<- sub_unequal %>% 
+  group_by(Import_ISO3, Export_ISO3, Year) %>% 
+  summarise(unequal_imports = sum(Total_tonnage, na.rm = T))
   
 ```
 
@@ -73,9 +81,18 @@ Join
 ```{r}
 trade_results<-full_join(imports, unequal_imports) %>% 
   mutate(prop_unequal = unequal_imports/imports)
+
+trade_results_iso3<-full_join(imports_iso3, unequal_imports_iso3) %>% 
+  full_join(., me) %>% 
+  rename(ME_score_exporter = ME_score) %>% 
+  full_join(., me, by = c("Import_ISO3" = "Export_ISO3")) %>% 
+  rename(ME_score_importer = ME_score) 
 ```
+
 ```{r}
 write.csv(trade_results, here("output_data/Trade_displacement.csv"))
+
+write.csv(trade_results_iso3, here("output_data/Trade_displacement_by_country.csv"))
 ```
 
 ```{r}
