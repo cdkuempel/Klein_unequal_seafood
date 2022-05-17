@@ -18,15 +18,13 @@ library(tidyverse)
 
 Trade data
 ```{r}
-trade<-read.csv(here("output_data/Trade_data_clean.csv"))%>% 
-  dplyr::select(-X)
+trade<-readRDS(here("output_data/Trade_data_clean.Rdata"))
 ```
 
 Management data
 
 ```{r}
-me<-read.csv(here("output_data/Management_data_clean.csv")) %>% 
-  dplyr::select(-X)
+me<-readRDS(here("output_data/Management_data_clean.Rdata")) 
 ```
 
 Join data
@@ -102,10 +100,10 @@ test<-trade_results %>%
 ```
 
 ```{r}
-test2<-imex_dat %>% 
-  filter(Year %in% c(2011,2012,2013,2014,2015),
-         Import_ISO3 == "ALB",
-         Source %in% c("Domestic Catch", "Foreign Fishing", "ReExport Domestic Catch", "ReExport Foreign Fishing")) 
+#test2<-imex_dat %>% 
+#  filter(Year %in% c(2011,2012,2013,2014,2015),
+#         Import_ISO3 == "ALB",
+#         Source %in% c("Domestic Catch", "Foreign Fishing", "ReExport Domestic Catch", "ReExport Foreign #Fishing")) 
   
 ```
 
