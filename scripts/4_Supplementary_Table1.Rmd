@@ -20,10 +20,11 @@ library(here)
 # Data
 
 ```{r}
-trade<-read.csv(here("output_data/Trade_displacement.csv"))
-fish<-read.csv(here("output_data/Fish_displacement.csv"))
-me_dat<-read.csv(here("output_data/Management_data_clean.csv")) %>% 
-  mutate()
+trade<-read.csv(here("output_data/Trade_displacement.csv")) %>% 
+  filter(!is.na(unequal_imports) == T)
+fish<-read.csv(here("output_data/Fish_displacement.csv")) %>% 
+  filter(!is.na(unequal_fish) == T)
+me_dat<-readRDS(here("output_data/Management_data_clean.Rdata")) 
 ```
 
 # Subset trade and fisheries data to average between 2011-2015
@@ -31,18 +32,18 @@ me_dat<-read.csv(here("output_data/Management_data_clean.csv")) %>%
 ```{r}
 sub_trade<-trade %>% 
   filter(Year %in% c(2011,2012,2013,2014,2015)) %>% 
-  dplyr::select(-X, -prop_unequal) %>% 
+  dplyr::select(-prop_unequal) %>% 
   group_by(Import_ISO3) %>% 
-  summarise_all(mean, na.rm = T)
+  summarise_all(funs(mean), na.rm = TRUE)
 
 ```
 
 ```{r}
 sub_fish<-fish %>% 
   filter(Year %in% c(2011,2012,2013,2014,2015)) %>% 
-  dplyr::select(-X, -prop_disp, -prop_unequal_disp) %>% 
+  dplyr::select(-prop_disp, -prop_unequal_disp) %>% 
   group_by(Fishing_ISO3) %>% 
-  summarise_all(mean, na.rm = T)
+  summarise_all(funs(mean), na.rm = TRUE) 
 ```
 
 # Join all together
@@ -51,9 +52,8 @@ sub_fish<-fish %>%
 all_dat<-full_join(sub_trade, sub_fish, by = c("Year", "Import_ISO3" = "Fishing_ISO3")) %>% 
   rename(Country = Import_ISO3) %>% 
   full_join(., me_dat, by = c("Country" = "Export_ISO3")) %>% 
-  mutate(ME_score = ifelse(Country == "HighSeas", 49,ME_score)) %>% 
-  filter(!is.na(ME_score) == T) %>% 
-  dplyr::select(-X, -Year)
+  #filter(!is.na(ME_score) == T) %>% 
+  dplyr::select(-Year)
 ```
 
 Need to double check trade - way off from current analysis
@@ -65,8 +65,10 @@ final<-all_dat %>%
                                ifelse(Country == "SCG", "Serbia and Montenegro",
                                       ifelse(Country == "HighSeas", "High seas", Country.Name)))) %>% 
   rename(ISO3 = Country) %>% 
-  dplyr::select(Country.Name, ISO3, ME_score, imports, disp_fished, unequal_imports, unequal_fish, unequal_fish_eez, unequal_fish_hs, unequal_fishing_in_waters)
+  dplyr::select(Country.Name, ISO3, ME_score, quantile, imports, disp_fished, unequal_imports, unequal_fish, unequal_fish_eez, unequal_fish_hs, unequal_fishing_in_waters) %>% 
+  rename(ME_quant = quantile)
 ```
+
 ```{r}
 write.csv(final, here("output_data/Supplementary_Table1.csv"))
 ```
