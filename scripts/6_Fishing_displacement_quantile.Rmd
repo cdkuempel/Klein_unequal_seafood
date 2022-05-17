@@ -28,7 +28,7 @@ library(cutr)
 Fishing data
 
 ```{r}
-fish<-read.csv(here("output_data/Fishing_data_clean.csv"))
+fish<-readRDS(here("output_data/Fishing_data_clean.Rdata"))
 ```
 
 Management data
@@ -41,17 +41,7 @@ Divide ME scores into 5 groups - expect that the more groups the more unequal di
 5. Low ME
 
 ```{r}
-high_seas<-data.frame(X = NA, Export_ISO3 = "HighSeas", ME_score = 49)
-
-me<-read.csv(here("output_data/Management_data_clean.csv")) %>% 
-  rbind(high_seas)
-
-#quantiles
-me %>% 
-  summarise(quant = quantile(ME_score, seq(0,1,0.2)))
-
-me$quantile<-cutr::smart_cut(me$ME_score, 5, "g", output = "numeric")
-
+me<-readRDS(here("output_data/Management_data_clean.Rdata")) 
 ```
 
 Join data
@@ -61,8 +51,7 @@ fish_me<-full_join(fish, me, by = c("Fished_ISO3" = "Export_ISO3"))   %>%
   mutate(Fishing_ISO3 = as.character(Fishing_ISO3),
          Fished_ISO3 = as.character(Fished_ISO3)) %>% 
   filter(Year>=1976,
-         Year <= 2015) %>% 
-  dplyr::select(-X.x, -X.y)
+         Year <= 2015) 
 
 test<-fish_me %>% 
   filter(is.na(ME_score) == T)
@@ -254,7 +243,6 @@ fish_results<-full_join(fishing, all_fish_displaced) %>%
         prop_unequal_disp = unequal_fish/disp_fished,
         prop_rev_disp = rev_fish/disp_fished)
 
-
 test<-fish_results %>% 
   filter(Fishing_ISO3 == "BEL") %>% 
   mutate(test = disp_fished - unequal_fish)
@@ -271,11 +259,9 @@ fish_results_country<-full_join(fishing_iso3, fish_displaced) %>%
   full_join(., rev_displaced) %>% 
   full_join(., rev_waters_disp, by = c("Fishing_ISO3" = "Fished_ISO3", "Fished_ISO3" = "Fishing_ISO3", "Year")) %>% 
   full_join(., me, by = c("Fishing_ISO3" = "Export_ISO3")) %>% 
-  dplyr::select(-X) %>% 
   rename(Fishing_ME = ME_score,
          Fishing_quant = quantile) %>% 
   full_join(., me, by = c("Fished_ISO3" = "Export_ISO3")) %>% 
-  dplyr::select(-X) %>% 
   rename(Fished_ME = ME_score,
          Fished_quant = quantile)
 
