@@ -18,16 +18,13 @@ library(tidyverse)
 Fishing data
 
 ```{r}
-fish<-read.csv(here("output_data/Fishing_data_clean.csv"))
+fish<-readRDS(here("output_data/Fishing_data_clean.Rdata"))
 ```
 
 Management data
 
 ```{r}
-high_seas<-data.frame(X = NA, Export_ISO3 = "HighSeas", ME_score = 49)
-
-me<-read.csv(here("output_data/Management_data_clean.csv")) %>% 
-  rbind(high_seas)
+me<-readRDS(here("output_data/Management_data_clean.Rdata")) 
 ```
 
 Join data
@@ -37,8 +34,7 @@ fish_me<-full_join(fish, me, by = c("Fished_ISO3" = "Export_ISO3"))   %>%
   mutate(Fishing_ISO3 = as.character(Fishing_ISO3),
          Fished_ISO3 = as.character(Fished_ISO3)) %>% 
   filter(Year>=1976,
-         Year <= 2015) %>% 
-  dplyr::select(-X.x, -X.y)
+         Year <= 2015) 
 
 test<-fish_me %>% 
   filter(is.na(ME_score) == T)
@@ -218,7 +214,7 @@ fish_results<-full_join(fishing, all_fish_displaced) %>%
   mutate(unequal_fish_eez = unequal_fish - unequal_fish_hs,
         prop_disp = disp_fished/Total_fished,
         prop_unequal_disp = unequal_fish/disp_fished,
-        prop_rev_disp = rev_fish/disp_fished)
+        prop_rev_disp = rev_fish/disp_fished) 
 ```
 
 # Table with country partners
@@ -232,18 +228,16 @@ fish_results_country<-full_join(fishing_iso3, fish_displaced) %>%
   full_join(., rev_displaced) %>% 
   full_join(., rev_waters_disp, by = c("Fishing_ISO3" = "Fished_ISO3", "Fished_ISO3" = "Fishing_ISO3", "Year")) %>% 
   full_join(., me, by = c("Fishing_ISO3" = "Export_ISO3")) %>% 
-  dplyr::select(-X) %>% 
   rename(Fishing_ME = ME_score) %>% 
   full_join(., me, by = c("Fished_ISO3" = "Export_ISO3")) %>% 
-  dplyr::select(-X) %>% 
-  rename(Fished_ME = ME_score)
+  rename(Fished_ME = ME_score) 
 ```
 
 
 
 ```{r}
-write.csv(fish_results, here("output_data/Fish_displacement.csv"))
+write_csv(fish_results, here("output_data/Fish_displacement.csv"))
 
-write.csv(fish_results_country, here("output_data/Fish_displacement_by_country.csv"))
+write_csv(fish_results_country, here("output_data/Fish_displacement_by_country.csv"))
 ```
 
