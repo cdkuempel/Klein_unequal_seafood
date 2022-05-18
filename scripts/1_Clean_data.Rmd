@@ -39,6 +39,12 @@ Management data
 me_dat<-read.csv(here("raw_data/Management_data.csv"), header = T)
 ```
 
+FMI data
+
+```{r}
+fmi_dat<-read.csv(here("raw_data/FMI_values.csv"))
+```
+
 # Clean data
 
 Clean up country names and ISO3 codes
@@ -206,6 +212,31 @@ maneff$quantile<-cutr::smart_cut(maneff$ME_score, 5, "g", output = "numeric")
 
 ```
 
+# FMI values
+
+```{r}
+fmi<-fmi_dat %>% 
+  rename(FMI = FMl) %>% 
+  mutate(Export_ISO3 = countrycode(Country, "country.name", "iso3c"),
+         FMI_weight_adj = FMI_weight_adj*100,
+         FMI = FMI*100) 
+
+# Add in high seas
+high_seas_fmi<-data.frame(Country = "HighSeas", Export_ISO3 = "HighSeas", FMI_weight_adj = 49, FMI = 49)
+
+fmi<- fmi %>% 
+  rbind(high_seas_fmi)
+
+#quantiles
+fmi %>% 
+  summarise(quant = quantile(FMI, seq(0,1,0.2)))
+
+fmi$fmi_wadj_quantile<-cutr::smart_cut(fmi$FMI_weight_adj, 5, "g", output = "numeric")
+
+fmi$fmi_quantile<-cutr::smart_cut(fmi$FMI, 5, "g", output = "numeric")
+
+```
+
 # Subset data
 
 Exclude Aquaculture
@@ -245,5 +276,6 @@ fish_done<-fishloc %>%
 saveRDS(imex_done, here("output_data/Trade_data_clean.Rdata"))
 saveRDS(fish_done, here("output_data/Fishing_data_clean.Rdata"))
 saveRDS(maneff, here("output_data/Management_data_clean.Rdata"))
+saveRDS(fmi, here("output_data/FMI_clean.Rdata"))
 ```
 
