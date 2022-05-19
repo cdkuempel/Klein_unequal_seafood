@@ -142,15 +142,16 @@ sub_dat<-fish_dat_plot %>%
 ```
 
 ```{r}
-prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (ME_score/100), label = labels, col = med_diff_me)) +
+prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (ME_score/100), label = labels)) + #col = med_diff_me)) +
   geom_point(aes(size = disp_fished/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
   ylab("Management effectiveness") +
-  labs(size = "Total Displaced\n(Millions of Tonnes)") +
+  labs(size = "Total Displaced\n(Millions of Tonnes)",
+       col = "Median management\ndifference") +
   theme_bw() +
   theme(plot.margin=margins,
-        legend.position=c(0.9,0.15),
+        #legend.position=c(0.9,0.15),
         legend.text=element_text(size=12),
          axis.text=element_text(size=12),
          axis.title=element_text(size=24),
@@ -171,7 +172,7 @@ prop_fish_plot2
 ```
 
 ```{r}
-ggsave(here("figures/Prop_fish_ME_plot.tiff"), dpi=300,  device = "tiff", width = 18, height=18, units = "cm")
+ggsave(here("figures/Prop_fish_ME_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
 ```
 
 
