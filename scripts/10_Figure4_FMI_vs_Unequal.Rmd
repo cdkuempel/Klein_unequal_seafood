@@ -30,7 +30,7 @@ fmi_results<-read.csv(here("output_data/Fish_displacement_FMI.csv")) %>%
   filter(Year == 2015)
 
 fmi<-readRDS(here("output_data/FMI_clean.Rdata")) %>% 
-  dplyr::select(Country, Export_ISO3, FMI)
+  dplyr::select(Country, Export_ISO3, FMI, FMI_weight_adj)
 
 fmi_results<-fmi_results %>% 
   full_join(., fmi, by = c("Fishing_ISO3" = "Export_ISO3")) %>% 
@@ -39,6 +39,15 @@ fmi_results<-fmi_results %>%
 length(unique(fmi_results$Fishing_ISO3))
 
 #17 countries
+```
+Management differences
+```{r}
+diff_me<-read_csv(here("output_data/Difference_management_scores.csv")) %>% 
+  dplyr::select(Fishing_ISO3, c(Fishing_FMI:med_diff_fmi_wadj))
+```
+
+```{r}
+fmi_results<-full_join(fmi_results, diff_me, by = c("Fishing_ISO3", "FMI" = "Fishing_FMI"))
 ```
 
 # FMI plots 
@@ -78,8 +87,11 @@ lm_eqn2 <- function(df){
 
 sub_dat<-fish_dat_plot %>% 
   filter(!is.na(prop_fish) == T)
+```
 
-prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (FMI/100), label = labels)) +
+```{r}
+
+prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (FMI/100), label = labels, col = med_diff_fmi)) +
   geom_point(aes(size = disp_fished/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
@@ -93,7 +105,8 @@ prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (FMI/100), label = label
          axis.title=element_text(size=24),
         plot.title = element_text(hjust = 0.5, size = 26)) +
   geom_text_repel(size = 4) +
-  xlim(c(0,1)) 
+  xlim(c(0,1)) +
+  scale_colour_gradientn(colours = terrain.colors(10))
 
 
 prop_fish_plot
@@ -127,6 +140,10 @@ length(unique(fmi_wadj_results$Fishing_ISO3))
 #17 countries - China is not in either
 ```
 
+```{r}
+fmi_wadj_results<-full_join(fmi_wadj_results, diff_me, by = c("Fishing_ISO3", "FMI_weight_adj" = "Fishing_FMI_wadj"))
+```
+
 
 ```{r}
 labels_wadj<- fmi_wadj_results %>% 
@@ -151,7 +168,7 @@ fish_wadj_plot<- fmi_wadj_results %>%
 margins = unit(c(0, 1, 0.4, 0.8), 'lines')
 
 lm_eqn2 <- function(df){
-    m <- lm((FMI)~ prop_fish, df);
+    m <- lm((FMI_weight_adj)~ prop_fish, df);
     eq <- substitute(~~italic(r)^2~"="~r2, 
          list(r2 = format(summary(m)$r.squared, digits = 2)))
     as.character(as.expression(eq));
@@ -160,11 +177,14 @@ lm_eqn2 <- function(df){
 sub_dat_wadj<-fish_wadj_plot %>% 
   filter(!is.na(prop_fish) == T)
 
-prop_fish_wadj_plot<-ggplot(sub_dat_wadj, aes(x = prop_fish , y = (FMI/100), label = labels)) +
+```
+
+```{r}
+prop_fish_wadj_plot<-ggplot(sub_dat_wadj, aes(x = prop_fish , y = (FMI_weight_adj/100), label = labels,col = med_diff_fmi_wadj)) +
   geom_point(aes(size = disp_fished/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
-  ylab("FMI") +
+  ylab("FMI weight adjusted") +
   labs(size = "Total Displaced\n(Millions of Tonnes)") +
   theme_bw() +
   theme(plot.margin=margins,
@@ -174,13 +194,14 @@ prop_fish_wadj_plot<-ggplot(sub_dat_wadj, aes(x = prop_fish , y = (FMI/100), lab
          axis.title=element_text(size=24),
         plot.title = element_text(hjust = 0.5, size = 26)) +
   geom_text_repel(size = 4) +
-  xlim(c(0,1)) 
+  xlim(c(0,1)) +
+  scale_colour_gradientn(colours = terrain.colors(10))
 
 
 prop_fish_wadj_plot
 
-
 ```
+
 
 ```{r}
 prop_fish_wadj_plot2<-prop_fish_wadj_plot + geom_text(x = 0.10, y = 0.75, label = lm_eqn2(fish_wadj_plot), parse = TRUE, size = 8.5) 
@@ -189,5 +210,5 @@ prop_fish_wadj_plot2
 ```
 
 ```{r}
-ggsave(here("figures/Prop_fish_FMI_wadj_plot.tiff"), dpi=300,  device = "tiff", width = 18, height=18, units = "cm")
+ggsave(here("figures/Prop_fish_FMI_wadj_med_color_plot.tiff"), dpi=300,  device = "tiff", width = 18, height=18, units = "cm")
 ```
