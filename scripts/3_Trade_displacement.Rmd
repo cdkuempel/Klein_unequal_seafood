@@ -95,7 +95,7 @@ write.csv(trade_results_iso3, here("output_data/Trade_displacement_by_country.cs
 
 ```{r}
 test<-trade_results %>% 
-  filter(Year %in% c(2011,2012,2013,2014,2015),
+  filter(Year %in% c(2007,2008,2010,2011,2012),
          Import_ISO3 == "ALB")
 ```
 

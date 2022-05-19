@@ -26,8 +26,11 @@ options(scipen = 999)
 We want to plot proportion unequal displacement vs FMI and FMI weight adjusted by country
 ```{r}
 fmi_results<-read.csv(here("output_data/Fish_displacement_FMI.csv")) %>% 
-  mutate(prop_fish = unequal_fish/disp_fished) %>% 
-  filter(Year == 2015)
+  filter(Year %in% c(2007,2008,2010,2011,2012)) %>% 
+  dplyr::select(-prop_disp, -prop_unequal_disp) %>% 
+  group_by(Fishing_ISO3) %>% 
+  summarise_all(funs(mean), na.rm = TRUE) %>% 
+  mutate(prop_fish = unequal_fish/disp_fished) 
 
 fmi<-readRDS(here("output_data/FMI_clean.Rdata")) %>% 
   dplyr::select(Country, Export_ISO3, FMI, FMI_weight_adj)
@@ -91,7 +94,7 @@ sub_dat<-fish_dat_plot %>%
 
 ```{r}
 
-prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (FMI/100), label = Country))+#,col = med_diff_fmi)) +
+prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (FMI/100), label = Country))+#, col = med_diff_fmi)) +
   geom_point(aes(size = disp_fished/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
@@ -127,8 +130,12 @@ ggsave(here("figures/Prop_fish_FMI_plot.tiff"), dpi=300,  device = "tiff", width
 
 ```{r}
 fmi_wadj_results<-read.csv(here("output_data/Fish_displacement_FMI_wadj.csv")) %>% 
-  mutate(prop_fish = unequal_fish/disp_fished) %>% 
-  filter(Year == 2015)
+  filter(Year %in% c(2007,2008,2010,2011,2012)) %>% 
+  dplyr::select(-prop_disp, -prop_unequal_disp) %>% 
+  group_by(Fishing_ISO3) %>% 
+  summarise_all(funs(mean), na.rm = TRUE) %>% 
+  mutate(prop_fish = unequal_fish/disp_fished) 
+ 
 
 fmi_wadj_results<-fmi_wadj_results %>% 
   full_join(., fmi, by = c("Fishing_ISO3" = "Export_ISO3")) %>% 
@@ -179,13 +186,13 @@ sub_dat_wadj<-fish_wadj_plot %>%
 ```
 
 ```{r}
-prop_fish_wadj_plot<-ggplot(sub_dat_wadj, aes(x = prop_fish , y = (FMI_weight_adj/100), label = Country,col = avg_diff_fmi_wadj)) +
+prop_fish_wadj_plot<-ggplot(sub_dat_wadj, aes(x = prop_fish , y = (FMI_weight_adj/100), label = Country))+#col = med_diff_fmi_wadj)) +
   geom_point(aes(size = disp_fished/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
   ylab("FMI weight adjusted") +
   labs(size = "Total Displaced\n(Millions of Tonnes)",
-       col = "Avg. management\ndifference") +
+       col = "Median management\ndifference") +
   theme_bw() +
   theme(plot.margin=margins,
      #   legend.position=c(0.9,0.15),
@@ -207,5 +214,5 @@ prop_fish_wadj_plot2
 ```
 
 ```{r}
-ggsave(here("figures/Prop_fish_FMI_wadj_avg_diff_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
+ggsave(here("figures/Prop_fish_FMI_wadj_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
 ```

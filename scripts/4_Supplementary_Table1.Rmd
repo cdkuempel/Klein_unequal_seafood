@@ -27,11 +27,11 @@ fish<-read.csv(here("output_data/Fish_displacement.csv")) %>%
 me_dat<-readRDS(here("output_data/Management_data_clean.Rdata")) 
 ```
 
-# Subset trade and fisheries data to average between 2011-2015
+# Subset trade and fisheries data to average between 2007-2012
 
 ```{r}
 sub_trade<-trade %>% 
-  filter(Year %in% c(2011,2012,2013,2014,2015)) %>% 
+  filter(Year %in% c(2007,2008,2010,2011,2012)) %>% 
   dplyr::select(-prop_unequal) %>% 
   group_by(Import_ISO3) %>% 
   summarise_all(funs(mean), na.rm = TRUE)
@@ -40,7 +40,7 @@ sub_trade<-trade %>%
 
 ```{r}
 sub_fish<-fish %>% 
-  filter(Year %in% c(2011,2012,2013,2014,2015)) %>% 
+  filter(Year %in% c(2007,2008,2010,2011,2012)) %>% 
   dplyr::select(-prop_disp, -prop_unequal_disp) %>% 
   group_by(Fishing_ISO3) %>% 
   summarise_all(funs(mean), na.rm = TRUE) 

@@ -79,7 +79,7 @@ all_fish_displaced<-fish_displaced %>%
 
 test<-all_fish_displaced %>% 
   filter(Fishing_ISO3 == "AGO",
-         Year %in% c(2011,2012,2013,2014,2015))
+         Year %in% c(2007,2008,2010,2011,2012))
 ```
 
 
