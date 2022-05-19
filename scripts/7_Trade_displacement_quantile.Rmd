@@ -104,9 +104,9 @@ test<-trade_results %>%
 ```
 
 ```{r}
-test2<-imex_dat %>% 
-  filter(Year %in% c(2011,2012,2013,2014,2015),
-         Import_ISO3 == "ALB",
-         Source %in% c("Domestic Catch", "Foreign Fishing", "ReExport Domestic Catch", "ReExport Foreign Fishing")) 
+#test2<-imex_dat %>% 
+#  filter(Year %in% c(2011,2012,2013,2014,2015),
+#         Import_ISO3 == "ALB",
+#         Source %in% c("Domestic Catch", "Foreign Fishing", "ReExport Domestic Catch", "ReExport Foreign Fishing")) 
   
 ```
