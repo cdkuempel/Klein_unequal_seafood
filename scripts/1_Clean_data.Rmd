@@ -91,7 +91,6 @@ imex_dat$Import_ISO3<-ifelse(imex_dat$ImportCountry == "Micronesia", "FSM", imex
 
 
 #Get Source country ISO3
-imex_dat<-imex_dat[!imex_dat$SourceCountry == "Channel Is",]
 imex_dat$Source_ISO3<-countrycode(imex_dat$SourceCountry, "country.name", "iso3c")
 
 imex_dat$SourceCountry<-ifelse(imex_dat$SourceCountry == "Cent Afr Rep", "Central African Republic",
@@ -102,7 +101,8 @@ imex_dat$SourceCountry<-ifelse(imex_dat$SourceCountry == "Cent Afr Rep", "Centra
                                                            ifelse(imex_dat$SourceCountry == "NethAntilles", "Netherlands Antilles",
                                                                   ifelse(imex_dat$SourceCountry == "St Pier Mq", "Saint-Pierre Martinique",
                                                                          ifelse(imex_dat$SourceCountry == "Cura\xe7ao", "Curacao",
-                                                                                ifelse(imex_dat$SourceCountry == "Untd Arab Em", "United Arab Emirates", as.character(imex_dat$SourceCountry))))))))))
+                                                                                ifelse(imex_dat$SourceCountry == "Untd Arab Em", "United Arab Emirates", 
+                                                                                       ifelse(imex_dat$SourceCountry == "Channel Is", "GB-CHA", as.character(imex_dat$SourceCountry)))))))))))
 
 imex_dat$Source_ISO3<-countrycode(imex_dat$SourceCountry, "country.name", "iso3c")
 
@@ -119,7 +119,6 @@ fishloc$Fishing_ISO3<-countrycode(fishloc$FishingCountry, "country.name", "iso3c
 
 #Remove Channel Islands and Other nei
 fishloc<-fishloc[!fishloc$FishingCountry == "Other nei",]
-fishloc<-fishloc[!fishloc$FishingCountry == "Channel Is",]
 
 fishloc$FishingCountry<-ifelse(fishloc$FishingCountry == "Amer Samoa", "American Samoa",
                                ifelse(fishloc$FishingCountry == "Br Ind Oc Tr", "British Indian Ocean Territory",
@@ -131,7 +130,8 @@ fishloc$FishingCountry<-ifelse(fishloc$FishingCountry == "Amer Samoa", "American
                                                                          ifelse(fishloc$FishingCountry == "St Pier Mq", "Saint-Pierre Martinique",
                                                                                 ifelse(fishloc$FishingCountry == "Untd Arab Em", "United Arab Emirates",
                                                                                        ifelse(fishloc$FishingCountry == "Cura\xe7ao", "Curacao",
-                                                                                              ifelse(fishloc$FishingCountry == "US Virgin Is", "United States Virgin Islands", as.character(fishloc$FishingCountry))))))))))))
+                                                                                              ifelse(fishloc$FishingCountry == "US Virgin Is", "United States Virgin Islands", 
+                                                                                                     ifelse(fishloc$FishingCountry == "Channel Is", "GB-CHA", as.character(fishloc$FishingCountry)))))))))))))
 
 
 
@@ -146,8 +146,6 @@ fishloc$Fishing_ISO3<-ifelse(fishloc$FishingCountry == "Micronesia", "FSM",
 
 fishloc$Fished_ISO3<-countrycode(fishloc$FishedCountry, "country.name", "iso3c")
 
-fishloc<-fishloc[!fishloc$FishedCountry == "Kerguelen Is",]
-fishloc<-fishloc[!fishloc$FishedCountry == "Channel Is",]
 
 fishloc$FishedCountry<-ifelse(fishloc$FishedCountry == "Amer Samoa", "American Samoa",
                               ifelse(fishloc$FishedCountry == "Br Ind Oc Tr", "British Indian Ocean Territory",
@@ -158,7 +156,9 @@ fishloc$FishedCountry<-ifelse(fishloc$FishedCountry == "Amer Samoa", "American S
                                                                  ifelse(fishloc$FishedCountry == "Fr Polynesia", "French Polynesia",
                                                                         ifelse(fishloc$FishedCountry == "St Pier Mq", "Saint-Pierre Martinique",
                                                                                ifelse(fishloc$FishedCountry == "Untd Arab Em", "United Arab Emirates",
-                                                                                      ifelse(fishloc$FishedCountry == "US Virgin Is", "United States Virgin Islands", as.character(fishloc$FishedCountry)))))))))))
+                                                                                      ifelse(fishloc$FishedCountry == "US Virgin Is", "United States Virgin Islands", 
+                                                                                             ifelse(fishloc$FishedCountry == "Channel Is", "GB-CHA",
+                                                                                                    ifelse(fishloc$FishedCountry == "Kerguelen Is", "ATF", as.character(fishloc$FishedCountry)))))))))))))
 
 
 
@@ -185,10 +185,9 @@ me<-me_dat %>%
 me$Export_ISO3<-countrycode(me$ME_Country, "country.name", "iso3c")
 me$Export_ISO3<-ifelse(me$ME_Country == "Serbia and Montenegro", "SCG", me$Export_ISO3)
 me$Export_ISO3<-ifelse(me$ME_Country == "Netherlands Antilles ", "ANT", me$Export_ISO3)
-me$Export_ISO3<-ifelse(me$ME_Country == "Azores", "PRT", me$Export_ISO3)
-me$Export_ISO3<-ifelse(me$ME_Country == "Madeira", "PRT", me$Export_ISO3)
+me$Export_ISO3<-ifelse(me$ME_Country == "Azores", "PT-20", me$Export_ISO3)
+me$Export_ISO3<-ifelse(me$ME_Country == "Madeira", "PT-30", me$Export_ISO3)
 
-#Azores and Madeira still don't match - I put them with portugal.
 me<-me[complete.cases(me), ]
 
 #If there are more than one coast/ocean that a ME score is calculated for then we average them
