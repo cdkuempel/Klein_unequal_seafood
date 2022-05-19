@@ -228,9 +228,11 @@ fish_results_country<-full_join(fishing_iso3, fish_displaced) %>%
   full_join(., rev_displaced) %>% 
   full_join(., rev_waters_disp, by = c("Fishing_ISO3" = "Fished_ISO3", "Fished_ISO3" = "Fishing_ISO3", "Year")) %>% 
   full_join(., me, by = c("Fishing_ISO3" = "Export_ISO3")) %>% 
-  rename(Fishing_ME = ME_score) %>% 
+  rename(Fishing_ME = ME_score,
+         Fishing_quantile = quantile) %>% 
   full_join(., me, by = c("Fished_ISO3" = "Export_ISO3")) %>% 
-  rename(Fished_ME = ME_score) 
+  rename(Fished_ME = ME_score,
+         Fished_quantile = quantile) 
 ```
 
 
