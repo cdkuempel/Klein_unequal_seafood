@@ -91,13 +91,13 @@ sub_dat<-fish_dat_plot %>%
 
 ```{r}
 
-prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (FMI/100), label = labels))+#, col = avg_diff_fmi)) +
+prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (FMI/100), label = Country))+#,col = med_diff_fmi)) +
   geom_point(aes(size = disp_fished/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
   ylab("FMI") +
   labs(size = "Total Displaced\n(Millions of Tonnes)", 
-       col = "Avg. management\ndifference") +
+       col = "Median management\ndifference") +
   theme_bw() +
   theme(plot.margin=margins,
       #  legend.position=c(0.9,0.15),
@@ -107,16 +107,14 @@ prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (FMI/100), label = label
         plot.title = element_text(hjust = 0.5, size = 26)) +
   geom_text_repel(size = 4) +
   xlim(c(0,1)) +
-  scale_colour_gradientn(colours = terrain.colors(10))
+  scale_colour_viridis(na.value = NA)
 
-
-prop_fish_plot
 
 
 ```
 
 ```{r}
-prop_fish_plot2<-prop_fish_plot + geom_text(x = 0.10, y = 0.75, label = lm_eqn2(fish_dat_plot), parse = TRUE, size = 8.5) 
+prop_fish_plot2<-prop_fish_plot + geom_text(x = 0.10, y = 0.9, label = lm_eqn2(fish_dat_plot), parse = TRUE, size = 8.5) 
 
 prop_fish_plot2
 ```
@@ -142,7 +140,7 @@ length(unique(fmi_wadj_results$Fishing_ISO3))
 ```
 
 ```{r}
-fmi_wadj_results<-full_join(fmi_wadj_results, diff_me, by = c("Fishing_ISO3", "FMI_weight_adj" = "Fishing_FMI_wadj"))
+fmi_wadj_results<-full_join(fmi_wadj_results, diff_me, by = c("Fishing_ISO3"))#, "FMI_weight_adj" = "Fishing_FMI_wadj"))
 ```
 
 
@@ -181,7 +179,7 @@ sub_dat_wadj<-fish_wadj_plot %>%
 ```
 
 ```{r}
-prop_fish_wadj_plot<-ggplot(sub_dat_wadj, aes(x = prop_fish , y = (FMI_weight_adj/100), label = labels))+ #,col = avg_diff_fmi_wadj)) +
+prop_fish_wadj_plot<-ggplot(sub_dat_wadj, aes(x = prop_fish , y = (FMI_weight_adj/100), label = Country,col = avg_diff_fmi_wadj)) +
   geom_point(aes(size = disp_fished/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
@@ -197,20 +195,17 @@ prop_fish_wadj_plot<-ggplot(sub_dat_wadj, aes(x = prop_fish , y = (FMI_weight_ad
         plot.title = element_text(hjust = 0.5, size = 26)) +
   geom_text_repel(size = 4) +
   xlim(c(0,1)) +
-  scale_colour_gradientn(colours = terrain.colors(10))
-
-
-prop_fish_wadj_plot
+  scale_colour_viridis()
 
 ```
 
 
 ```{r}
-prop_fish_wadj_plot2<-prop_fish_wadj_plot + geom_text(x = 0.10, y = 0.75, label = lm_eqn2(fish_wadj_plot), parse = TRUE, size = 8.5) 
+prop_fish_wadj_plot2<-prop_fish_wadj_plot + geom_text(x = 0.10, y = 0.9, label = lm_eqn2(fish_wadj_plot), parse = TRUE, size = 8.5) 
 
 prop_fish_wadj_plot2
 ```
 
 ```{r}
-ggsave(here("figures/Prop_fish_FMI_wadj_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
+ggsave(here("figures/Prop_fish_FMI_wadj_avg_diff_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
 ```
