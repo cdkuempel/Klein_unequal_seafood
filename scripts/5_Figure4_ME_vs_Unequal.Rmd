@@ -49,7 +49,7 @@ trade_labels<- data %>%
   mutate(cumsum_trade_disp = cumsum(unequal_imports),
     Total_trade_disp = sum(unequal_imports, na.rm = T),
     prop_cumsum = cumsum_trade_disp/Total_trade_disp) %>% 
-  filter(prop_cumsum <0.9) %>% 
+  filter(prop_cumsum <0.75) %>% 
   mutate(labels = countrycode(ISO3, 'iso3c', 'country.name')) %>% 
   dplyr::select(Country.Name, ISO3, labels)
   
@@ -86,10 +86,10 @@ prop_trade_plot<-ggplot(trade_dat, aes(x = prop_trade , y = (ME_score/100), labe
          axis.text=element_text(size=12),
         axis.title=element_text(size=24),
         plot.title = element_text(hjust = 0.5, size = 26)) +
-  geom_text_repel(size = 4) +
+  geom_text_repel(size = 4, 
+                  force = 2) +
   xlim(c(0,1)) 
 
-prop_trade_plot
 ```
 
 ```{r}
@@ -115,7 +115,7 @@ labels<- data %>%
   mutate(cumsum_fish_disp = cumsum(unequal_fish),
     Total_Fish_disp = sum(unequal_fish, na.rm =T),
     prop_cumsum = cumsum_fish_disp/Total_Fish_disp) %>% 
-  filter(prop_cumsum <0.9) %>% 
+  filter(prop_cumsum <0.75) %>% 
   mutate(labels = countrycode(ISO3, "iso3c", "country.name")) %>% 
   select(Country.Name, ISO3, labels)
 
@@ -142,13 +142,13 @@ sub_dat<-fish_dat_plot %>%
 ```
 
 ```{r}
-prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (ME_score/100), label = labels, col = avg_diff_me)) +
+prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (ME_score/100), label = labels))+#, col = med_diff_me)) +
   geom_point(aes(size = disp_fished/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
   ylab("Management effectiveness") +
   labs(size = "Total Displaced\n(Millions of Tonnes)",
-       col = "Avg management\ndifference") +
+       col = "Median management\ndifference") +
   theme_bw() +
   theme(plot.margin=margins,
         #legend.position=c(0.9,0.15),
@@ -156,12 +156,14 @@ prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (ME_score/100), label = 
          axis.text=element_text(size=12),
          axis.title=element_text(size=24),
         plot.title = element_text(hjust = 0.5, size = 26)) +
-  geom_text_repel(size = 4) +
+  geom_text_repel(size = 4, 
+                  force = 5,
+                 # point.padding = 0.7,
+                  nudge_x = -0.03,
+                  nudge_y = 0.01) +
   xlim(c(0,1)) +
   scale_colour_viridis(na.value = NA)
 
-
-prop_fish_plot
 ```
 
 
@@ -172,7 +174,7 @@ prop_fish_plot2
 ```
 
 ```{r}
-ggsave(here("figures/Prop_fish_ME_avg_diff_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
+ggsave(here("figures/Prop_fish_ME_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
 ```
 
 
