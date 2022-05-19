@@ -215,8 +215,7 @@ fish_results<-full_join(fishing, all_fish_displaced) %>%
   mutate(unequal_fish_eez = unequal_fish - unequal_fish_hs,
         prop_disp = disp_fished/Total_fished,
         prop_unequal_disp = unequal_fish/disp_fished,
-        prop_rev_disp = rev_fish/disp_fished) %>% 
-  filter(!is.na(disp_fished) == T)
+        prop_rev_disp = rev_fish/disp_fished) 
 ```
 
 # Table with country partners
@@ -232,8 +231,7 @@ fish_results_country<-full_join(fishing_iso3, fish_displaced) %>%
   full_join(., me, by = c("Fishing_ISO3" = "Export_ISO3")) %>% 
   rename(Fishing_ME = ME_score) %>% 
   full_join(., me, by = c("Fished_ISO3" = "Export_ISO3")) %>% 
-  rename(Fished_ME = ME_score) %>% 
-  filter(!is.na(disp_fished) == T)
+  rename(Fished_ME = ME_score)
 ```
 
 
