@@ -92,7 +92,7 @@ final<-all_dat %>%
                                ifelse(Country == "SCG", "Serbia and Montenegro",
                                       ifelse(Country == "HighSeas", "High seas", Country.Name)))) %>% 
   rename(ISO3 = Country) %>% 
-  dplyr::select(Country.Name, ISO3, ME_score, quantile, imports, disp_fished, unequal_imports, unequal_fish, unequal_fish_eez, unequal_fish_hs, unequal_fishing_in_waters) %>% 
+  dplyr::select(Country.Name, ISO3, ME_score, quantile, imports,  unequal_imports,disp_fished, unequal_fish, unequal_fish_eez, unequal_fish_hs, unequal_fishing_in_waters, disp_fished_fmi_wadj, unequal_fish_fmi_wadj, unequal_fish_eez_fmi_wadj, unequal_fish_hs_fmi_wadj, FMI_weight_adj) %>% 
   rename(ME_quant = quantile)
 ```
 
