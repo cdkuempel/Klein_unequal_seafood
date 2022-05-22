@@ -234,6 +234,35 @@ fish_results_country<-full_join(fishing_iso3, fish_displaced) %>%
   rename(Fished_ME = ME_score)
 ```
 
+Checking why we end up with only 17 countries, and why China does not have unequal displacement. 
+```{r}
+test<-fish_results_country %>% 
+  filter(is.na(Fishing_ME) == F)
+
+length(unique(test$Fishing_ISO3))
+
+test2<-test %>% 
+  filter(is.na(disp_fished) == F)
+
+length(unique(test2$Fishing_ISO3))
+
+test3<-test2 %>% 
+  filter(is.na(unequal_disp_fished) == F)
+
+length(unique(test3$Fishing_ISO3))
+
+test4<-test3 %>% 
+  filter(Year %in% c(2007,2008,2009,2010,2011,2012))
+
+length(unique(test4$Fishing_ISO3))
+
+chn<-fish_results_country %>% 
+  filter(Fishing_ISO3 == "CHN")
+
+sub_chn<-chn %>% 
+  filter(Fishing_ME>Fished_ME)
+```
+
 
 
 ```{r}
