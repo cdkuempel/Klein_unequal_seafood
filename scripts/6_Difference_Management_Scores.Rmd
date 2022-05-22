@@ -1,0 +1,75 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+# Load Management scores
+```{r}
+mora_fish<-read_csv(here("output_data/Fish_displacement_by_country.csv")) %>% 
+  filter(!is.na(unequal_disp_fished) == T,
+         Year %in% c(2007,2008,2009,2010,2011))
+
+fmi<-read_csv(here("output_data/Fish_displacement_by_country_FMI.csv"))%>% 
+  filter(!is.na(unequal_disp_fished) == T,
+         Year %in% c(2007,2008,2009,2010,2011))
+
+fmi_wadj<-read_csv(here("output_data/Fish_displacement_by_country_FMI_wadj.csv"))%>% 
+  filter(!is.na(unequal_disp_fished) == T,
+         Year %in% c(2007,2008,2009,2010,2011))
+```
+
+```{r}
+diff_me<-mora_fish %>% 
+  mutate(diff_me = Fishing_ME - Fished_ME) %>% 
+  group_by(Fishing_ISO3, Fishing_ME) %>% 
+  summarise(avg_Fished_ME = mean(Fished_ME),
+            med_Fished_ME = median(Fished_ME),
+            avg_diff_me = mean(diff_me),
+            med_diff_me = median(diff_me))
+```
+
+```{r}
+diff_fmi<-fmi %>% 
+  mutate(diff_fmi = Fishing_ME - Fished_ME) %>% 
+  group_by(Fishing_ISO3, Fishing_ME) %>% 
+  summarise(avg_Fished_FMI = mean(Fished_ME),
+            med_Fished_FMI = median(Fished_ME),
+            avg_diff_fmi = mean(diff_fmi),
+            med_diff_fmi = median(diff_fmi)) %>% 
+  rename(Fishing_FMI = Fishing_ME)
+```
+
+```{r}
+diff_fmi_wadj<-fmi_wadj %>% 
+  mutate(diff_fmi_wadj = Fishing_ME - Fished_ME) %>% 
+  group_by(Fishing_ISO3, Fishing_ME) %>% 
+  summarise(avg_Fished_FMI_wadj = mean(Fished_ME),
+            med_Fished_FMI_wadj = median(Fished_ME),
+            avg_diff_fmi_wadj = mean(diff_fmi_wadj),
+            med_diff_fmi_wadj = median(diff_fmi_wadj)) %>% 
+  rename(Fishing_FMI_wadj = Fishing_ME)
+```
+
+# Join all together
+
+```{r}
+all_diff<-full_join(diff_me, diff_fmi) %>% 
+  full_join(., diff_fmi_wadj)
+```
+
+```{r}
+write.csv(all_diff, here("output_data/Difference_management_scores.csv"))
+```
+
+```{r}
+test<-read_csv(here("output_data/Difference_management_scores.csv"))
+```
+

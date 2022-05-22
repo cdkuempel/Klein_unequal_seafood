@@ -1,0 +1,83 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(here)
+library(tidyverse)
+```
+
+# Data
+
+```{r}
+fish_results<-read_csv(here("output_data/Fish_displacement_by_country.csv")) %>% 
+  filter(Year %in% c(2007,2008,2009,2010,2011)) 
+
+fish_totals<-read_csv(here("output_data/Fish_displacement.csv")) %>% 
+  filter(Year %in% c(2007,2008,2009,2010,2011)) %>% 
+  dplyr::select(Fishing_ISO3, unequal_fish, unequal_fish_hs) %>% 
+  group_by(Fishing_ISO3) %>% 
+  summarise_all(mean, na.rm = T)
+
+fish_results_fmi<-read_csv(here("output_data/Fish_displacement_by_country_fmi.csv")) %>% 
+  filter(Year %in% c(2007,2008,2009,2010,2011)) 
+```
+
+
+
+# Subset to countries with top management effectiveness
+
+```{r}
+high_me<-fish_results %>% 
+  filter(Fishing_quantile == 5)
+```
+
+
+# Calculate displacement in REALLY unequal countries
+
+```{r}
+high_12_me<-high_me %>% 
+  filter(Fished_quantile %in% c(1,2)) %>% 
+  group_by(Fishing_ISO3, Fishing_ME, Year, Fishing_quantile) %>% 
+  summarise(unequal_12 = sum(unequal_disp_fished, na.rm = T),
+            unequal_hs_12 = sum(unequal_disp_fished_hs, na.rm = T)) %>% 
+  group_by(Fishing_ISO3, Fishing_ME, Fishing_quantile) %>% 
+  summarise(avg_unequal_12 = mean(unequal_12, na.rm = T),
+            avg_unequal_hs_12 = mean(unequal_hs_12, na.rm = T))
+```
+
+```{r}
+high_123_me<-high_me %>% 
+  filter(Fished_quantile %in% c(1,2, 3)) %>% 
+  group_by(Fishing_ISO3, Fishing_ME, Year, Fishing_quantile) %>% 
+  summarise(unequal_123 = sum(unequal_disp_fished, na.rm = T),
+            unequal_hs_123 = sum(unequal_disp_fished_hs, na.rm = T)) %>% 
+  group_by(Fishing_ISO3, Fishing_ME, Fishing_quantile) %>% 
+  summarise(avg_unequal_123 = mean(unequal_123, na.rm = T),
+            avg_unequal_hs_123 = mean(unequal_hs_123, na.rm = T))
+```
+
+```{r}
+join<-full_join(high_12_me, high_123_me) %>% 
+  full_join(., fish_totals) %>% 
+  mutate(prop_12 = avg_unequal_12/unequal_fish,
+         prop_12_hs = avg_unequal_hs_12/unequal_fish,
+         prop_123 = avg_unequal_123/unequal_fish,
+         prop_123_hs = avg_unequal_hs_123/unequal_fish) %>% 
+  filter(!is.na(Fishing_quantile) == T)
+```
+
+```{r}
+write_csv(join, here("output_data/Highly_unequal_displacement.csv"))
+```
+
+```{r}
+test<-high_me %>% 
+  filter(Fishing_ISO3 == "DNK")
+```
+

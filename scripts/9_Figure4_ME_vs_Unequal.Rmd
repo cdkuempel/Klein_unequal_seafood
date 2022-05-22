@@ -1,0 +1,196 @@
+---
+title: "Figure4_ME_vs_Unequal"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(countrycode)
+library(devtools)
+#install_github("johannesbjork/LaCroixColoR")
+library(LaCroixColoR)
+library(ggrepel)
+library(here)
+library(patchwork)
+
+options(scipen = 999)
+```
+
+# Data
+```{r}
+data<-read.csv(here("output_data/Supplementary_Table1.csv")) %>% 
+  mutate(unequal_fish = ifelse(is.na(unequal_fish) == T, 0, as.numeric(unequal_fish)),
+         unequal_imports = ifelse(is.na(unequal_imports) == T, 0, as.numeric(unequal_imports)),
+         prop_fish = unequal_fish/disp_fished,
+         prop_trade = unequal_imports/imports)
+```
+
+Management difference data
+
+```{r}
+diff_me<-read_csv(here("output_data/Difference_management_scores.csv")) %>% 
+  dplyr::select(-c(Fishing_FMI:med_diff_fmi_wadj))
+```
+
+```{r}
+data<-full_join(data, diff_me, by = c("ISO3" = "Fishing_ISO3", "ME_score" = "Fishing_ME"))
+```
+
+# Trade plot
+
+```{r}
+trade_labels<- data %>% 
+  arrange(desc(unequal_imports)) %>% 
+  mutate(cumsum_trade_disp = cumsum(unequal_imports),
+    Total_trade_disp = sum(unequal_imports, na.rm = T),
+    prop_cumsum = cumsum_trade_disp/Total_trade_disp) %>% 
+  filter(prop_cumsum <0.9) %>% 
+  mutate(labels = countrycode(ISO3, 'iso3c', 'country.name')) %>% 
+  dplyr::select(Country.Name, ISO3, labels)
+  
+length(unique(trade_labels$ISO3))
+
+#27 countries with labels
+
+trade_dat<- data %>% 
+  filter(!is.na(imports) == T) %>% 
+  left_join(., trade_labels, by = c("ISO3", "Country.Name"))
+
+lm_eqn <- function(df){
+    m <- lm((ME_score)~ prop_trade, df);
+    eq <- substitute(~~italic(r)^2~"="~r2, 
+         list(r2 = format(summary(m)$r.squared, digits = 2)))
+    as.character(as.expression(eq));
+}
+
+
+margins = unit(c(0, 1, 0.4, 0.8), 'lines')
+```
+
+```{r}
+prop_trade_plot<-ggplot(trade_dat, aes(x = prop_trade , y = (ME_score/100), label = labels)) +
+  geom_point(aes(size = imports/10000)) +
+  geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed" , formula = y~x) +
+  xlab("Proportion of displaced seafood from\nless-effectively managed places") +
+  ylab("Management effectiveness") +
+  labs(size = "Total Displaced\n(10 Thousands of Tonnes)") +
+  theme_bw() +
+   theme(plot.margin=margins,
+   #       legend.position=c(.85,.15),
+         legend.text=element_text(size=12),
+         axis.text=element_text(size=12),
+        axis.title=element_text(size=24),
+        plot.title = element_text(hjust = 0.5, size = 26)) +
+  geom_text_repel(size = 4, 
+                  force = 2) +
+  xlim(c(0,1)) 
+
+```
+
+```{r}
+prop_trade_plot2<-prop_trade_plot + geom_text(x = 0.1, y = 0.75, label = lm_eqn(trade_dat), parse = TRUE, size = 8.5) 
+
+prop_trade_plot2
+```
+Use to be 0.44 r2??
+
+```{r}
+ggsave(here("figures/Prop_trade_ME_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
+```
+
+# Fishing plots 
+
+Plot 113 countries that displace seafood from less effectively managed places
+
+Confirm labels with Carissa - does she want top 90% of unequal displaced or just displaced?
+
+```{r}
+labels<- data %>% 
+  arrange(desc(unequal_fish)) %>% 
+  mutate(cumsum_fish_disp = cumsum(unequal_fish),
+    Total_Fish_disp = sum(unequal_fish, na.rm =T),
+    prop_cumsum = cumsum_fish_disp/Total_Fish_disp) %>% 
+  filter(prop_cumsum <0.9) %>% 
+  mutate(labels = countrycode(ISO3, "iso3c", "country.name")) %>% 
+  select(Country.Name, ISO3, labels)
+
+length(unique(labels$ISO3))
+
+#32 countries
+
+fish_dat_plot<- data %>% 
+  filter(!is.na(unequal_fish) == T) %>% 
+  left_join(., labels, by = c("Country.Name", "ISO3"))
+
+margins = unit(c(0, 1, 0.4, 0.8), 'lines')
+
+lm_eqn2 <- function(df){
+    m <- lm((ME_score)~ prop_fish, df);
+    eq <- substitute(~~italic(r)^2~"="~r2, 
+         list(r2 = format(summary(m)$r.squared, digits = 2)))
+    as.character(as.expression(eq));
+}
+
+sub_dat<-fish_dat_plot %>% 
+  filter(!is.na(prop_fish) == T)
+
+```
+
+```{r}
+prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (ME_score/100), label = labels))+#, col = med_diff_me)) +
+  geom_point(aes(size = disp_fished/1000000)) +
+  geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
+  xlab("Proportion of displaced seafood from\nless-effectively managed places") +
+  ylab("Management effectiveness") +
+  labs(size = "Total Displaced\n(Millions of Tonnes)",
+       col = "Median management\ndifference") +
+  theme_bw() +
+  theme(plot.margin=margins,
+        #legend.position=c(0.9,0.15),
+        legend.text=element_text(size=12),
+         axis.text=element_text(size=12),
+         axis.title=element_text(size=24),
+        plot.title = element_text(hjust = 0.5, size = 26)) +
+  geom_text_repel(size = 4, 
+                  force = 5,
+                 # point.padding = 0.7,
+                  nudge_x = -0.03,
+                  nudge_y = 0.01) +
+  xlim(c(0,1)) +
+  scale_colour_viridis(na.value = NA)
+
+```
+
+
+```{r}
+prop_fish_plot2<-prop_fish_plot + geom_text(x = 0.10, y = 0.75, label = lm_eqn2(fish_dat_plot), parse = TRUE, size = 8.5) 
+
+prop_fish_plot2
+```
+
+```{r}
+ggsave(here("figures/Prop_fish_ME_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
+```
+
+
+# Combine trade and fishing plots
+
+```{r}
+#prop_fish_plot2/prop_trade_plot2
+```
+
+
+```{r}
+#ggpubr::ggarrange(prop_fish_plot2, prop_trade_plot2,
+#          labels = c("a.", "b."),
+#          font.label = list(size=24),
+#          label.y = 1.01,
+#          nrow = 2, ncol=1,
+#          align = "hv")
+#  ggsave(here("figures/Fig4_combined_fish_trade_plot.tiff"), width = 10, height = 18, units = "in", #dpi=300)
+```
