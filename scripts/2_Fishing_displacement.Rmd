@@ -211,7 +211,8 @@ fish_results<-full_join(fishing, all_fish_displaced) %>%
   full_join(., unequal_waters, by = c("Fishing_ISO3" = "Fished_ISO3", "Year")) %>% 
   full_join(., rev_fish) %>% 
   full_join(., rev_waters, by = c("Fishing_ISO3" = "Fished_ISO3", "Year")) %>% 
-  mutate(unequal_fish_eez = unequal_fish - unequal_fish_hs,
+  mutate(unequal_fish_hs =ifelse(is.na(unequal_fish_hs) == T, 0, as.numeric(unequal_fish_hs)),
+        unequal_fish_eez = unequal_fish - unequal_fish_hs,
         prop_disp = disp_fished/Total_fished,
         prop_unequal_disp = unequal_fish/disp_fished,
         prop_rev_disp = rev_fish/disp_fished) 
