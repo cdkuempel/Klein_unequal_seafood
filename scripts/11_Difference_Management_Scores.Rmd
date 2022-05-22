@@ -14,13 +14,16 @@ library(tidyverse)
 # Load Management scores
 ```{r}
 mora_fish<-read_csv(here("output_data/Fish_displacement_by_country.csv")) %>% 
-  filter(!is.na(unequal_disp_fished) == T)
+  filter(!is.na(unequal_disp_fished) == T,
+         Year %in% c(2007,2008,2009,2010,2011,2012))
 
 fmi<-read_csv(here("output_data/Fish_displacement_by_country_FMI.csv"))%>% 
-  filter(!is.na(unequal_disp_fished) == T)
+  filter(!is.na(unequal_disp_fished) == T,
+         Year %in% c(2007,2008,2009,2010,2011,2012))
 
 fmi_wadj<-read_csv(here("output_data/Fish_displacement_by_country_FMI_wadj.csv"))%>% 
-  filter(!is.na(unequal_disp_fished) == T)
+  filter(!is.na(unequal_disp_fished) == T,
+         Year %in% c(2007,2008,2009,2010,2011,2012))
 ```
 
 ```{r}
@@ -64,5 +67,9 @@ all_diff<-full_join(diff_me, diff_fmi) %>%
 
 ```{r}
 write.csv(all_diff, here("output_data/Difference_management_scores.csv"))
+```
+
+```{r}
+test<-read_csv(here("output_data/Difference_management_scores.csv"))
 ```
 
