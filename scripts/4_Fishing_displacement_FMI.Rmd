@@ -29,6 +29,8 @@ Management data
 me<-readRDS(here("output_data/FMI_clean.Rdata")) %>% 
   dplyr::select(Export_ISO3, FMI) %>% 
   rename(ME_score = FMI)
+
+coi<-unique(me$Export_ISO3)
 ```
 
 Join data
@@ -77,6 +79,17 @@ fish_displaced<- fish_me %>%
 all_fish_displaced<-fish_displaced %>% 
   group_by(Fishing_ISO3, Year) %>% 
   summarise(disp_fished = sum(disp_fished, na.rm = T))
+
+coi_fish_displaced<-fish_me %>% 
+  filter(!Fishing_ISO3 == Fished_ISO3,
+         Fishing_ISO3 %in% coi,
+         Fished_ISO3 %in% coi) %>% 
+  group_by(Fishing_ISO3, Fished_ISO3, Year) %>% 
+  summarise(coi_disp_fished = sum(Total_fished, na.rm = T)) 
+
+all_coi_displaced<-coi_fish_displaced %>% 
+  group_by(Fishing_ISO3, Year) %>% 
+  summarise(coi_disp_fished = sum(coi_disp_fished, na.rm = T))
 
 
 test<-all_fish_displaced %>% 
@@ -209,6 +222,7 @@ Join
 
 ```{r}
 fish_results<-full_join(fishing, all_fish_displaced) %>% 
+  full_join(., all_coi_displaced) %>% 
   full_join(., unequal_fish) %>% 
   full_join(., unequal_fish_hs) %>% 
   full_join(., unequal_waters, by = c("Fishing_ISO3" = "Fished_ISO3", "Year")) %>% 
@@ -219,6 +233,9 @@ fish_results<-full_join(fishing, all_fish_displaced) %>%
         prop_disp = disp_fished/Total_fished,
         prop_unequal_disp = unequal_fish/disp_fished,
         prop_rev_disp = rev_fish/disp_fished) 
+
+test<-fish_results %>% 
+  filter(!is.na(coi_disp_fished) == T)
 ```
 
 # Table with country partners
@@ -226,6 +243,7 @@ fish_results<-full_join(fishing, all_fish_displaced) %>%
 
 ```{r}
 fish_results_country<-full_join(fishing_iso3, fish_displaced) %>% 
+  full_join(., coi_fish_displaced) %>% 
   full_join(., unequal_displaced) %>% 
   full_join(., unequal_displaced_hs) %>% 
   full_join(., unequal_waters_disp, by = c("Fishing_ISO3" = "Fished_ISO3", "Fished_ISO3" = "Fishing_ISO3", "Year")) %>% 
