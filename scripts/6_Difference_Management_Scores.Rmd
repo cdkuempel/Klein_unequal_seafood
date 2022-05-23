@@ -9,21 +9,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
+yoi<-c(2007,2008,2009,2010,2011)
 ```
 
 # Load Management scores
 ```{r}
 mora_fish<-read_csv(here("output_data/Fish_displacement_by_country.csv")) %>% 
   filter(!is.na(unequal_disp_fished) == T,
-         Year %in% c(2007,2008,2009,2010,2011))
+         Year %in% yoi)
 
 fmi<-read_csv(here("output_data/Fish_displacement_by_country_FMI.csv"))%>% 
   filter(!is.na(unequal_disp_fished) == T,
-         Year %in% c(2007,2008,2009,2010,2011))
+         Year %in% yoi)
 
 fmi_wadj<-read_csv(here("output_data/Fish_displacement_by_country_FMI_wadj.csv"))%>% 
   filter(!is.na(unequal_disp_fished) == T,
-         Year %in% c(2007,2008,2009,2010,2011))
+         Year %in% yoi)
 ```
 
 ```{r}

@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(here)
 library(tidyverse)
+
+yoi<-c(2007,2008,2009,2010,2011)
 ```
 
 
@@ -79,7 +81,7 @@ all_fish_displaced<-fish_displaced %>%
 
 test<-all_fish_displaced %>% 
   filter(Fishing_ISO3 == "AGO",
-         Year %in% c(2007,2008,2009,2010,2011))
+         Year %in% yoi)
 ```
 
 
@@ -253,7 +255,7 @@ test3<-test2 %>%
 length(unique(test3$Fishing_ISO3))
 
 test4<-test3 %>% 
-  filter(Year %in% c(2007,2008,2009,2010,2011))
+  filter(Year %in% yoi)
 
 length(unique(test4$Fishing_ISO3))
 

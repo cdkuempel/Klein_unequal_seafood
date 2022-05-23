@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(here)
 library(tidyverse)
+
+yoi<-c(2007,2008,2009,2010,2011)
 ```
 
 
@@ -95,7 +97,7 @@ write.csv(trade_results_iso3, here("output_data/Trade_displacement_by_country.cs
 
 ```{r}
 test<-trade_results %>% 
-  filter(Year %in% c(2007,2008,2009,2010,2011),
+  filter(Year %in% yoi,
          Import_ISO3 == "ALB")
 ```
 

@@ -10,22 +10,24 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(here)
 library(tidyverse)
+
+yoi<-c(2007,2008,2009,2010,2011)
 ```
 
 # Data
 
 ```{r}
 fish_results<-read_csv(here("output_data/Fish_displacement_by_country.csv")) %>% 
-  filter(Year %in% c(2007,2008,2009,2010,2011)) 
+  filter(Year %in% yoi) 
 
 fish_totals<-read_csv(here("output_data/Fish_displacement.csv")) %>% 
-  filter(Year %in% c(2007,2008,2009,2010,2011)) %>% 
+  filter(Year %in% yoi) %>% 
   dplyr::select(Fishing_ISO3, unequal_fish, unequal_fish_hs) %>% 
   group_by(Fishing_ISO3) %>% 
   summarise_all(mean, na.rm = T)
 
 fish_results_fmi<-read_csv(here("output_data/Fish_displacement_by_country_fmi.csv")) %>% 
-  filter(Year %in% c(2007,2008,2009,2010,2011)) 
+  filter(Year %in% yoi) 
 ```
 
 
