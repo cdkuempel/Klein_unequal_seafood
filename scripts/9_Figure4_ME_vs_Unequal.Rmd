@@ -97,7 +97,6 @@ prop_trade_plot2<-prop_trade_plot + geom_text(x = 0.1, y = 0.75, label = lm_eqn(
 
 prop_trade_plot2
 ```
-Use to be 0.44 r2??
 
 ```{r}
 ggsave(here("figures/Prop_trade_ME_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
@@ -142,7 +141,7 @@ sub_dat<-fish_dat_plot %>%
 ```
 
 ```{r}
-prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (ME_score/100), label = labels))+#, col = med_diff_me)) +
+prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish , y = (ME_score/100), label = labels, col = med_diff_me)) +
   geom_point(aes(size = disp_fished/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
@@ -174,7 +173,7 @@ prop_fish_plot2
 ```
 
 ```{r}
-ggsave(here("figures/Prop_fish_ME_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
+ggsave(here("figures/Prop_fish_ME_med_diff_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
 ```
 
 
