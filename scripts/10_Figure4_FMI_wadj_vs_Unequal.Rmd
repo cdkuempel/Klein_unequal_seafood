@@ -17,6 +17,7 @@ library(LaCroixColoR)
 library(ggrepel)
 library(here)
 library(patchwork)
+library(viridis)
 
 options(scipen = 999)
 ```
@@ -67,7 +68,7 @@ lm_eqn2 <- function(df){
 
 ```{r}
 sub_dat<-data2 %>% 
-  dplyr::select(ISO3, prop_fish_fmi_wadj, disp_fished_fmi_wadj, FMI_weight_adj, med_diff_fmi_wadj, avg_diff_fmi_wadj) %>% 
+  dplyr::select(Country.Name, ISO3, prop_fish_fmi_wadj, disp_fished_fmi_wadj, FMI_weight_adj, med_diff_fmi_wadj, avg_diff_fmi_wadj) %>% 
   mutate(med_diff_fmi_wadj = ifelse(is.na(med_diff_fmi_wadj) == T, 0, as.numeric(med_diff_fmi_wadj)),
          avg_diff_fmi_wadj = ifelse(is.na(avg_diff_fmi_wadj) == T, 0, as.numeric(avg_diff_fmi_wadj))) %>% 
   filter(!is.na(FMI_weight_adj) == T)
@@ -75,13 +76,13 @@ sub_dat<-data2 %>%
 ```
 
 ```{r}
-prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish_fmi_wadj , y = (FMI_weight_adj/100), label = ISO3, col = med_diff_fmi_wadj)) +
+prop_fish_plot<-ggplot(sub_dat, aes(x = prop_fish_fmi_wadj , y = (FMI_weight_adj/100), label = Country.Name))+#, col = avg_diff_fmi_wadj)) +
   geom_point(aes(size = disp_fished_fmi_wadj/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
-  ylab("FMI (weight adjusted)") +
-  labs(size = "Total Displaced\n(Millions of Tonnes)",
-       col = "Median management\ndifference") +
+  ylab("Fisheries management\nindex") +
+  labs(size = "Total displaced\n(Millions of Tonnes)",
+       col = "Avg. management\ndifference") +
   theme_bw() +
   theme(plot.margin=margins,
         #legend.position=c(0.9,0.15),
@@ -107,7 +108,7 @@ prop_fish_plot2
 ```
 
 ```{r}
-ggsave(here("figures/Prop_fish_FMI_wadj_med_diff_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
+ggsave(here("figures/Prop_fish_FMI_wadj_plot.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
 ```
 
 # COI plots
@@ -124,7 +125,7 @@ lm_eqn3 <- function(df){
 
 ```{r}
 sub_dat2<-data2 %>% 
-  dplyr::select(ISO3, prop_fish_fmi_wadj_coi, coi_disp_fished_fmi_wadj, FMI_weight_adj, med_diff_fmi_wadj, avg_diff_fmi_wadj) %>% 
+  dplyr::select(Country.Name, ISO3, prop_fish_fmi_wadj_coi, coi_disp_fished_fmi_wadj, FMI_weight_adj, med_diff_fmi_wadj, avg_diff_fmi_wadj) %>% 
   mutate(med_diff_fmi_wadj = ifelse(is.na(med_diff_fmi_wadj) == T, 0, as.numeric(med_diff_fmi_wadj)),
          avg_diff_fmi_wadj = ifelse(is.na(avg_diff_fmi_wadj) == T, 0, as.numeric(avg_diff_fmi_wadj))) %>% 
   filter(!is.na(FMI_weight_adj) == T)
@@ -132,11 +133,11 @@ sub_dat2<-data2 %>%
 ```
 
 ```{r}
-prop_fish_plot<-ggplot(sub_dat2, aes(x = prop_fish_fmi_wadj_coi , y = (FMI_weight_adj/100), label = ISO3))+#, col = avg_diff_fmi_wadj)) +
+prop_fish_plot<-ggplot(sub_dat2, aes(x = prop_fish_fmi_wadj_coi , y = (FMI_weight_adj/100), label = Country.Name, col = avg_diff_fmi_wadj)) +
   geom_point(aes(size = coi_disp_fished_fmi_wadj/1000000)) +
   geom_smooth(method = "lm", se=FALSE, color="darkgrey", linetype = "dashed", formula = y~x) +
   xlab("Proportion of displaced seafood from\nless-effectively managed places") +
-  ylab("FMI (weight adjusted)") +
+  ylab("Fisheries management\nindex") +
   labs(size = "Total Displaced\n(Millions of Tonnes)",
        col = "Avg. management\ndifference") +
   theme_bw() +
@@ -164,5 +165,5 @@ prop_fish_plot3
 ```
 
 ```{r}
-ggsave(here("figures/Prop_fish_FMI_wadj_plot_coi.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
+ggsave(here("figures/Prop_fish_FMI_wadj_avg_diff_plot_coi.tiff"), dpi=300,  device = "tiff", width = 22, height=18, units = "cm")
 ```
