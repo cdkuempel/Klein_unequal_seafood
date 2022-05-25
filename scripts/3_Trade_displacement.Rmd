@@ -80,7 +80,8 @@ Join
 
 ```{r}
 trade_results<-full_join(imports, unequal_imports) %>% 
-  mutate(prop_unequal = unequal_imports/imports)
+  mutate(prop_unequal = unequal_imports/imports) %>% 
+  full_join(., me, by = c("Import_ISO3" = "Export_ISO3"))
 
 trade_results_iso3<-full_join(imports_iso3, unequal_imports_iso3) %>% 
   full_join(., me) %>% 
@@ -96,6 +97,29 @@ write.csv(trade_results_iso3, here("output_data/Trade_displacement_by_country.cs
 ```
 
 ```{r}
+
+test<-read_csv(here("output_data/Trade_displacement.csv")) #%>% 
+  filter(!is.na(imports) == T,
+         !is.na(Import_ISO3) == T)
+
+length(unique(test$Import_ISO3))
+
+test_me<-test %>% 
+  filter(!is.na(ME_score) == T)
+
+length(unique(test_me$Import_ISO3))
+
+test2<-read_csv(here("output_data/Trade_displacement_by_country.csv")) %>% 
+    filter(!is.na(imports) == T,
+         !is.na(Import_ISO3) == T)
+
+length(unique(test2$Import_ISO3))
+
+test3<-test2 %>% 
+  filter(!is.na(ME_score_importer) == T)
+
+length(unique(test3$Import_ISO3))
+
 test<-trade_results %>% 
   filter(Year %in% yoi,
          Import_ISO3 == "ALB")

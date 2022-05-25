@@ -246,3 +246,80 @@ write_csv(fish_results, here("output_data/Fish_displacement.csv"))
 write_csv(fish_results_country, here("output_data/Fish_displacement_by_country.csv"))
 ```
 
+```{r}
+test<-fish_results %>% 
+  filter(!is.na(Total_fished) == T)
+
+length(unique(test$Fishing_ISO3))
+
+test<-test %>% 
+  filter(Year %in% c(2007,2008,2009,2010,2011))
+
+
+length(unique(test$Fishing_ISO3))
+
+test2<-test %>% 
+  filter(!is.na(disp_fished) == T)
+
+length(unique(test2$Fishing_ISO3))
+
+test2<-test2 %>% 
+  filter(Year %in% c(2007,2008,2009,2010,2011))
+
+length(unique(test2$Fishing_ISO3))
+
+test3<-fish_results %>% 
+  full_join(., me, by = c("Fishing_ISO3" = "Export_ISO3"))
+
+test4<-test3 %>% 
+  filter(!is.na(Total_fished) == T,
+         !is.na(ME_score) == T)
+
+length(unique(test4$Fishing_ISO3))
+
+test4<-test4 %>% 
+  filter(Year %in% c(2007,2008,2009,2010,2011))
+
+length(unique(test4$Fishing_ISO3))
+```
+
+```{r}
+test5<-read_csv(here("output_data/Trade_displacement.csv")) %>% 
+  filter(!is.na(imports) == T,
+         !is.na(Import_ISO3) == T,
+         !is.na(ME_score) == T)
+
+test6<-full_join(test5, test4, by = c("Import_ISO3" = "Fishing_ISO3","Year", "ME_score", "quantile"))
+
+test7<-test6 %>% 
+  filter(!is.na(imports) == T,
+         Year %in% c(2007,2008,2009,2010,2011)) 
+
+test8<-test6%>% 
+  filter(!is.na(imports) == T,
+         !is.na(ME_score) == T,
+         Year %in% c(2007,2008,2009,2010,2011))
+
+length(unique(test8$Import_ISO3))
+         
+
+length(unique(test7$Import_ISO3))
+```
+
+```{r}
+test6<-test6 %>% 
+  filter(!is.na(imports) == T,
+         !is.na(Total_fished) == T,
+         !is.na(ME_score) == T)
+
+length(unique(test6$Import_ISO3))
+
+test6<-test6 %>% 
+  filter(!is.na(imports) == T,
+         !is.na(Total_fished) == T,
+         !is.na(ME_score) == T,
+         Year %in% c(2007,2008,2009,2010,2011))
+
+length(unique(test6$Import_ISO3))
+```
+
