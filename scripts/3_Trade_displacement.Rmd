@@ -97,8 +97,7 @@ write.csv(trade_results_iso3, here("output_data/Trade_displacement_by_country.cs
 ```
 
 ```{r}
-
-test<-read_csv(here("output_data/Trade_displacement.csv")) #%>% 
+test<-read_csv(here("output_data/Trade_displacement.csv")) %>% 
   filter(!is.na(imports) == T,
          !is.na(Import_ISO3) == T)
 
