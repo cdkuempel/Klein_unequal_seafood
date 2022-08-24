@@ -1,0 +1,46 @@
+---
+title: "Untitled"
+output: html_document
+date: "2022-08-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+# Fishing data
+
+```{r}
+fishloc<-readRDS(here("output_data/Fishiing_data_IUU_clean.Rdata"))
+```
+
+# IUU total fishing
+
+```{r}
+iuu<-fishloc %>% 
+   mutate(Reported2 = as.numeric(Reported),
+          IUU2 = as.numeric(IUU)) %>% 
+  rename(Total_fished = Reported2,
+         Year = IYear) %>% 
+  group_by(Year) %>% 
+  summarise(Fished_year = sum(Total_fished, na.rm = T),
+         IUU_year = sum(IUU2, na.rm = T),
+         prop_iuu = IUU_year/Fished_year) %>% 
+  select(Year, Fished_year, IUU_year, prop_iuu) %>% 
+  filter(Year %in% c(2007,2008,2009,2010,2011))
+
+write.csv(iuu, here("output_data/IUU_fishing.csv"))
+```
+
+# For countries in analysis
+
+```{r}
+coi<-read.csv(here("output_data/Fish_displacement_by_country.csv")) %>% 
+  filter(!is.na(unequal_disp_fished) == T)
+```
+
