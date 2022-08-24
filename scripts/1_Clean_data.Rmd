@@ -17,6 +17,7 @@ library(data.table)
 library(zoo)
 library(here)
 library(tidyverse)
+#devtools::install_github("moodymudskipper/cutr")
 library(cutr)
 ```
 
@@ -263,7 +264,6 @@ imex_done<-imex_done %>%
 
 ```{r}
 fish_done<-fishloc %>% 
-  filter() %>% 
   mutate(Reported2 = as.numeric(Reported)) %>% 
   rename(Total_fished = Reported2,
          Year = IYear) %>% 
@@ -271,9 +271,12 @@ fish_done<-fishloc %>%
 ```
 
 
+
+
 ```{r}
 saveRDS(imex_done, here("output_data/Trade_data_clean.Rdata"))
 saveRDS(fish_done, here("output_data/Fishing_data_clean.Rdata"))
+saveRDS(fishloc, here("output_data/Fishiing_data_IUU_clean.Rdata"))
 saveRDS(maneff, here("output_data/Management_data_clean.Rdata"))
 saveRDS(fmi, here("output_data/FMI_clean.Rdata"))
 ```
